@@ -46,6 +46,12 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Testing: iteration_5.json — 100% pass at 1440/1280/768/390; build exit 0
 - NOTE: CobaltModel.jsx once got a duplicated tail from partial search_replace — file is clean now, verify before bulk edits
 
+## Implemented (2026-06) — Iteration 5 (GLB quality fix, user bug report)
+- Root cause of "broken" car: --simplify-error 0.001 crushed panels/wheels/normals. Fix: draco-only re-optimization (NO simplify), full 1M-tri geometry, 33MB → 1.33MB, served at /models/cobalt.glb?v=3
+- Material upgrades: chrome alloy rims ('roda*' materials, luminance-split rim vs tire), transparent realistic headlight glass, red transparent rear lights, chrome exhaust ('escape')
+- Decals: continuous checker-band texture (1.7 wide) + single aligned "999 TAXI" door texture (both sides)
+- Testing: iteration_6.json — 100% pass, full 3D visual checklist verified (crisp panels, silver rims, realistic lights, aligned decals); build exit 0
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
