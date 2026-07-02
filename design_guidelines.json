@@ -1,0 +1,171 @@
+{
+  "theme_and_archetype": {
+    "domain": "Transportation / Taxi Marketing",
+    "theme": "Dark",
+    "archetype": "Archetype 4 (Swiss & High-Contrast)",
+    "description": "A high-tension, energetic dark mode aesthetic that uses pure white typography and signature Yandex Yellow (#FFCC00) to cut through deep, moody backgrounds. Emphasizes authority, speed, and premium technology through 3D depth and high contrast."
+  },
+  "typography": {
+    "strategy": "Swiss Brutalist (Tech/Art) - High contrast in weights and striking proportions.",
+    "fonts": {
+      "headings": {
+        "family": "Cabinet Grotesk, sans-serif",
+        "weights": ["800", "900"],
+        "usage": "Massive, bold, tight tracking for all primary marketing messages and hero text.",
+        "css_classes": "font-sans font-black tracking-tighter leading-none"
+      },
+      "body": {
+        "family": "Manrope, sans-serif",
+        "weights": ["400", "500"],
+        "usage": "Clean, highly readable geometric sans for descriptions and UI elements.",
+        "css_classes": "font-sans font-normal tracking-normal leading-relaxed"
+      },
+      "accent": {
+        "family": "JetBrains Mono, monospace",
+        "weights": ["400"],
+        "usage": "Small technical details, overlines, and labels (e.g., 'EST. TIME', 'DISTANCE').",
+        "css_classes": "font-mono text-xs uppercase tracking-[0.2em]"
+      }
+    },
+    "scales": {
+      "h1": "text-5xl md:text-6xl lg:text-7xl",
+      "h2": "text-3xl md:text-4xl lg:text-5xl",
+      "h3": "text-xl md:text-2xl",
+      "body": "text-base md:text-lg",
+      "small": "text-sm"
+    }
+  },
+  "colors": {
+    "background": {
+      "primary": "#0A0A0A",
+      "surface_1": "#121212",
+      "surface_2": "#1A1A1A",
+      "glass": "rgba(255, 255, 255, 0.03)"
+    },
+    "brand": {
+      "primary": "#FFCC00",
+      "primary_hover": "#FFDB4D",
+      "primary_glow": "rgba(255, 204, 0, 0.4)"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#A0A0A0",
+      "inverse": "#000000"
+    },
+    "border": {
+      "subtle": "rgba(255, 255, 255, 0.1)",
+      "focus": "#FFCC00"
+    }
+  },
+  "layout_and_surfaces": {
+    "spacing_system": "Generous Spacing (Tailwind Scale) with high tension asymmetry.",
+    "padding_rules": {
+      "section_y": "py-24 md:py-32",
+      "container_x": "px-6 md:px-12 lg:px-24",
+      "card_inner": "p-8 md:p-12"
+    },
+    "surface_strategies": {
+      "cards": "Solid deep gray (#121212) with 1px border (border-white/10). No soft shadows, rely on stark contrast.",
+      "glassmorphism": "Used ONLY for the sticky nav bar: backdrop-blur-xl bg-black/60 with a 1px border-b border-white/10.",
+      "borders": "Minimalist sharp corners. Use rounded-none or max rounded-md (4px-8px) for a tech-focused Swiss look."
+    },
+    "grid_modes": {
+      "marketing_bento": "Tetris Grid for the Benefits section. Mix col-span-4 and col-span-8 to create asymmetrical tension."
+    }
+  },
+  "3d_and_motion_strategy": {
+    "libraries": ["@react-three/fiber", "@react-three/drei", "framer-motion", "lenis"],
+    "hero_3d_scene": {
+      "concept": "A sleek, highly reflective 3D Yandex taxi rotating in a dark void.",
+      "technical": "Use R3F with <Stage> or <Environment preset='city'> for realistic metallic car paint reflections. The car should slowly rotate automatically, and respond slightly to mouse movement (parallax via <PresentationControls>)."
+    },
+    "map_3d_scene": {
+      "concept": "Dark mode interactive city map with glowing yellow route arcs.",
+      "technical": "Use react-map-gl with a dark mapbox style. Overlay an animated sweeping route line. If WebGL is heavy, fake the 3D map tilt using CSS transform (rotateX) on a high-res night city map background."
+    },
+    "scroll_animations": {
+      "smooth_scroll": "Lenis is MANDATORY for premium momentum scrolling.",
+      "parallax_icons": "Small 3D primitives (spheres, cubes, or 3D pins) floating in the background, rotating based on framer-motion useScroll() tied to the Y offset.",
+      "text_reveal": "Headings must animate in via staggered line masks (y: 100% to 0, overflow-hidden wrapper)."
+    }
+  },
+  "sections": {
+    "navigation": {
+      "style": "Glassmorphism sticky header (z-50).",
+      "layout": "Brand logo left, links center (hidden on mobile), solid yellow 'Download App' CTA button right.",
+      "data_testid": "main-navigation"
+    },
+    "hero": {
+      "layout": "Split composition. Left: Massive typographic hook overlapping the center. Center/Right: The R3F Canvas showing the 3D rotating car.",
+      "content": "H1: 'Move to the rhythm of the city.' CTA: 'Order Now' (Solid Yellow) + 'Learn More' (Outline White).",
+      "visuals": "Dark background with a subtle radial glow behind the car using the primary_glow color.",
+      "data_testid": "hero-section"
+    },
+    "benefits": {
+      "layout": "Bento Grid (Tetris Mode).",
+      "cards": [
+        {"title": "Fast Pitch", "span": "col-span-1 md:col-span-8", "theme": "Dark"},
+        {"title": "Safety First", "span": "col-span-1 md:col-span-4", "theme": "Yellow outline"},
+        {"title": "24/7 Support", "span": "col-span-1 md:col-span-4", "theme": "Glass"}
+      ],
+      "data_testid": "benefits-section"
+    },
+    "tariffs": {
+      "layout": "Horizontal scrollable flex container or a CSS grid.",
+      "card_style": "Sharp corners, border-l-4 border-l-transparent hover:border-l-[#FFCC00] transition-all. High contrast typography for pricing.",
+      "categories": ["Economy", "Comfort", "Business", "Premier"],
+      "data_testid": "tariffs-section"
+    },
+    "how_it_works": {
+      "layout": "Vertical timeline with large typography.",
+      "visuals": "Accompanied by 3D animated icons (R3F or Framer Motion SVGs) that light up as the user scrolls past each step (ScrollSpy).",
+      "steps": ["Set destination", "Choose tariff", "Track your driver", "Enjoy the ride"],
+      "data_testid": "how-it-works-section"
+    },
+    "app_download": {
+      "layout": "2-column grid. Left: Text + App Store / Google Play badges. Right: Floating black smartphone mockup.",
+      "background": "Deep gray with an aggressive diagonal layout (skew-y).",
+      "data_testid": "app-download-section"
+    },
+    "footer": {
+      "layout": "Massive padding (py-32). Top: Huge brand text 'YANDEX.TAXI' spanning full width. Bottom: Grid of links and legal text in gray.",
+      "data_testid": "footer-section"
+    }
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#FFCC00] text-black font-bold uppercase tracking-wide px-8 py-4 hover:bg-[#FFDB4D] hover:scale-105 transition-transform duration-300",
+      "secondary": "bg-transparent border border-white/20 text-white font-bold uppercase tracking-wide px-8 py-4 hover:border-white hover:bg-white/5 transition-all duration-300"
+    },
+    "badges": {
+      "style": "bg-white/10 text-white text-xs px-3 py-1 uppercase tracking-widest backdrop-blur-md border border-white/10"
+    }
+  },
+  "media_and_assets": {
+    "images": [
+      {
+        "category": "app_mockup",
+        "url": "https://images.unsplash.com/photo-1511140973288-19bf21d7e771?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA2OTV8MHwxfHNlYXJjaHwyfHxibGFjayUyMHNtYXJ0cGhvbmUlMjBwaG9uZSUyMG1vY2t1cCUyMGRhcmslMjBiYWNrZ3JvdW5kfGVufDB8fHx8MTc4Mjk4ODIzNHww&ixlib=rb-4.1.0&q=85",
+        "description": "Black iPhone turned on in dark environment. Use for the App Download section.",
+        "usage_instructions": "Clip out the background or use a blend mode (screen/lighten) to merge seamlessly into the dark section."
+      }
+    ],
+    "icons": {
+      "library": "@phosphor-icons/react",
+      "style": "Duotone or Fill, used at large scales (48px+)"
+    }
+  },
+  "testing": {
+    "rules": "All interactive elements (buttons, links, form inputs) and major sections MUST include a data-testid attribute in kebab-case."
+  },
+  "instructions_to_main_agent": [
+    "Strictly follow the Dark Theme + Archetype 4 (Swiss/High-Contrast) aesthetic. Do not introduce light-mode panels.",
+    "Use Cabinet Grotesk for Headings and Manrope for Body.",
+    "For the 3D Hero: Ensure @react-three/fiber and @react-three/drei are installed. Use a placeholder 3D model (like a Box or a simple car geometry if a GLTF is not available) but structure the R3F Canvas to accept an environment, lighting, and presentation controls.",
+    "For the Map: If react-map-gl is too complex for the MVP, simulate the 3D map using a CSS-transformed background pattern (rotateX) with Framer Motion animated SVG paths.",
+    "Implement Lenis for smooth scrolling.",
+    "Ensure the hero heading overlaps the 3D canvas slightly to create spatial tension.",
+    "Never use raw #000000 for backgrounds; stick to #0A0A0A or #121212 to preserve shadow rendering.",
+    "Use the provided App Mockup image URL from Unsplash for the 'App Download' section."
+  ]
+}
