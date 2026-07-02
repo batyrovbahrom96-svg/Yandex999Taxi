@@ -1,50 +1,35 @@
-# Yandex Taxi — 3D Marketing Landing Page
+# PRD — 999 Taxi Landing Page
 
 ## Original Problem Statement
-Build a landing page: Create 3D landing page about Yandex Taxi service.
+Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high-contrast theme, R3F 3D elements). In June 2026 the user requested a FULL REBRAND/REBUILD into **999 Taxi** — a premium, trustworthy, conversion-focused landing page for a taxi-driver connection & support service in Tashkent (helps drivers connect/work with Yandex Go).
 
-## User Choices
-- **Language**: English
-- **Style**: Bright branded (Yandex yellow #FFCC00 + deep black #0A0A0A) — dark-mode Swiss/high-contrast archetype
-- **3D**: All (rotating car in hero, interactive 3D city map with routes, 3D parallax icons on scroll)
-- **Sections**: Hero + Benefits + Tariffs + How it works + App + Footer
-- **Backend**: None — pure marketing landing
+## Key Requirements (user-confirmed)
+- 100% Uzbek (Latin) UI — no English left
+- Vertical continuous scroll on desktop AND mobile (horizontal scroll removed)
+- Pure frontend — NO backend/database
+- Lead form → opens Telegram (t.me deep link) with pre-filled message, then shows success state
+- Brand colors: yellow #FFD400, black #050505, charcoal #111, red #E11D2E, white, gray
+- Legal safety: NEVER claim "official Yandex partner"; safe wording used in FAQ #6 and footer legal note
+- No fake reviews — honest placeholder "Haydovchilar fikrlari tez orada qo'shiladi"
+- Contact: Phone +998 78 113 99 91, Telegram @t_boxodir, Toshkent, Har kuni 09:00–21:00
+- Logo: user planned to upload a yellow/red/black 999 Taxi logo but never attached it → text-based "999 TAXI" brand mark built in `Logo.jsx` (swap when file arrives)
+
+## Implemented (2026-06)
+- Full rebuild, all sections: Navigation (Uzbek, Telegram/Call CTAs), Hero (3D taxi R3F canvas, 3 CTAs, 4 trust badges), SEO keyword Marquee, About (4 cards), Services (6 cards + Bog'lanish CTAs), WhyUs (6 cards), Process (4-step 3D timeline + CTA), Requirements (5 items + safe note), Trust (contact blocks + honest testimonial placeholder), FAQ (6-item shadcn accordion, safe answer for "official Yandex?" question), LeadForm (→ Telegram prefill via window.open, success "Rahmat!" state), FinalCTA, Footer (legal note), MobileCTA sticky bottom bar (Qo'ng'iroq / Telegram / Ariza)
+- TaxiScene updated: paint #FFD400, red #E11D2E side stripes
+- Tailwind colors `taxi` / `redb` added; index.css utilities (tilt-card, road-line, city-lights, road-perspective)
+- index.html: lang=uz, Uzbek/Russian SEO title, description, keywords
+- Deleted obsolete: HorizontalScroll, Benefits, Tariffs, HowItWorks, CityMap, AppDownload, ScrollProgress
+- Testing: iteration_2.json — frontend 100% pass (all CTAs, form flow, FAQ, mobile sticky bar, no overflow, no English leftovers). `yarn build` passes (exit 0).
 
 ## Architecture
-- **Frontend**: React 19 + Tailwind + Framer Motion + Lenis smooth scroll + React Three Fiber (three.js)
-- **3D Scenes**: All built from R3F primitives — no external GLTFs required
-  - Hero: stylized low-poly Yandex taxi with `<PresentationControls>` drag + auto-rotate + reflective `<Environment preset="city">`
-  - How it works: 4 mini R3F canvases (spinning octahedron/box/torus/sphere with yellow emissive)
-  - CityMap: procedural building grid + `<TubeGeometry>` route arc + animated marker following a `CatmullRomCurve3`
-- **Smooth scroll**: Lenis mounted in `App.js`
-- **Typography**: Cabinet Grotesk (display) + Manrope (body) + JetBrains Mono (labels)
+- React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
+- Brand constants: `/app/frontend/src/lib/brand.js`
+- Page composition: `/app/frontend/src/pages/Landing.jsx`
+- Sections: `/app/frontend/src/components/landing/*.jsx`
 
-## Sections Implemented (Dec 2025)
-1. **Navigation** — Sticky glass nav, mobile hamburger, 5 links + Download CTA
-2. **Hero** — Massive H1 + 3D taxi canvas + LIVE badge + 3-stat row
-3. **Marquee** — Auto-scrolling ticker (FAST / SAFE / 24/7 / GLOBAL / PREMIUM / SMART / RELIABLE / EVERYWHERE)
-4. **Benefits** — 6-card asymmetric bento grid (8/4 / 4/4/4 / 8) with mix of dark, yellow, glass, yellow-soft variants
-5. **Tariffs** — 4 pricing cards (Economy, Comfort [featured], Business, Premier) with feature checklists
-6. **How it works** — Vertical timeline with 4 steps, each paired with its own mini 3D canvas
-7. **City Map** — Full-width 3D isometric city grid with animated route + moving taxi marker + live-network stats overlay
-8. **App Download** — Phone mockup with fake map + route + arriving-driver card, App Store + Google Play CTAs, 3 mini stats
-9. **Footer** — Big CTA + 4-column link grid + socials + huge YANDEX.TAXI wordmark
-
-## Testing
-- **Iteration 1 (Dec 2025)**: 100% frontend pass. All 51 data-testids verified. 6 WebGL canvases render. Desktop + mobile navigation smooth-scrolls. Zero console errors.
-
-## Prioritized Backlog
-### P1
-- Guard R3F canvases with `IntersectionObserver` so offscreen scenes suspend on low-end devices
-- Add real localized copy variants (RU / other languages) if needed
-
-### P2
-- Testimonials / press-quotes carousel
-- Driver signup CTA section
-- Cookie consent banner
-- Real GLTF taxi model (currently primitives-only)
-- OG image + meta tags for social sharing
-
-## Next Action Items
-- Optional: add IntersectionObserver-based 3D suspension for better mobile perf
-- Optional: add sharing meta tags + favicon polish
+## Backlog
+- P1: Swap text logo with real uploaded logo file when user attaches it (Logo.jsx)
+- P2: Real driver testimonials when available (replace placeholder in Trust.jsx)
+- P2: Optional backend lead storage + admin view if user later wants leads in a database
+- P2: Analytics on CTA clicks (Telegram vs call vs form) for conversion tracking

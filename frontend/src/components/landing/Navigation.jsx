@@ -88,7 +88,7 @@ export default function Navigation() {
       </div>
 
       {open && (
-        <div className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/10 px-6 py-6">
+        <div data-testid="mobile-menu" className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/10 px-6 py-6">
           <nav className="flex flex-col gap-4">
             {links.map((l) => (
               <a
