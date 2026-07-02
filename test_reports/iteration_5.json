@@ -1,0 +1,22 @@
+{
+  "summary": "Frontend-only polish/fix regression pass for 999 Taxi landing. Verified all 9 items from the review request across 1440, 1280, 768, 390 viewports. No overlap of hero text/CTAs with the 3D car on desktop (all text elements fit within left ~44% of viewport, car rendered on right). Mobile/tablet uses new content-first layout (headline → paragraph → 3 CTAs → separate bordered 300px canvas → trust badges). Marquee contains 0 Cyrillic characters (all Uzbek Latin). Hero badge = 'HAYDOVCHILAR UCHUN ULANISH XIZMATI'. Cinematic scroll stages 1/2/3 render correctly with sticky canvas. No console errors. LeadForm submit shows Rahmat! success, and clicking leadform-reset now correctly CLEARS name & phone fields. Nav smooth scroll, FAQ accordion, footer 3D credit all working.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Hero.jsx uses window.innerWidth in useState initializer — safe in CRA but would crash under SSR. Consider guarding with typeof window check if SSR ever added.",
+    "hasWebGL() creates a throwaway canvas each call; only invoked once via useState initializer so fine as-is."
+  ],
+  "updated_files": [],
+  "success_rate": {"frontend": "100%"},
+  "seed_data_creation": "none",
+  "retest_needed": false,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "App is frontend-only (no backend). Preview URL: https://yandex-ride-preview.preview.emergentagent.com. Wait 6-9s after navigation for GLB/3D. Lenis smooth scroll => wait 2.5-3s after scrollTo. Telegram popups sometimes navigate in-tab under Playwright (page.context.expect_page may timeout), but Rahmat success text confirms form submission worked. Verified checks: hero-title text = '999 Taxi bilan Yandex Go‘da tezroq ish boshlang.'; hero-badge = 'HAYDOVCHILAR UCHUN ULANISH XIZMATI'; desktop text right edges ≤ 641px (viewport-half 720px @ 1440, 640 @ 1280); mobile order title.y<desc.y<tg.y<canvas.y<trust.y; marquee has NO cyrillic chars; leadform-reset clears fields; no console errors; footer contains '3D'. Screenshots saved to /tmp/desk_1440_stage[0-3].jpg, /tmp/desk_1280.jpg, /tmp/tab_768.jpg, /tmp/mob_390.jpg, /tmp/mob_390_bottom.jpg.",
+  "rca of the issue": "N/A — this was verification of already-applied polish fixes; all reported user bugs (car overlap, oversize, checker decals, mobile paragraph over car, Russian marquee, badge wording) verified as resolved."
+}

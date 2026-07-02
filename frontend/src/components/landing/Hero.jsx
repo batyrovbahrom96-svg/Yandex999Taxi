@@ -24,7 +24,7 @@ class SceneErrorBoundary extends Component {
         <img
           src="/cobalt-taxi.jpg"
           alt="999 Taxi — Chevrolet Cobalt"
-          className="w-full h-full object-cover opacity-70"
+          className="w-full h-full object-cover opacity-80"
           data-testid="hero-image-fallback"
         />
       );
@@ -63,6 +63,81 @@ function hasWebGL() {
   }
 }
 
+function HeroContent({ goForm }) {
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="inline-flex items-center gap-3 px-4 py-2 border border-white/15 bg-black/60 backdrop-blur-md mb-6"
+        data-testid="hero-badge"
+      >
+        <span className="w-2 h-2 rounded-full bg-taxi animate-pulse-glow" />
+        <span className="font-mono-accent text-[10px] md:text-xs text-white/80">HAYDOVCHILAR UCHUN ULANISH XIZMATI</span>
+      </motion.div>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.05 }}
+        className="font-display text-white text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-[4.4rem] tracking-tighter drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
+        data-testid="hero-title"
+      >
+        <span className="text-taxi">999 Taxi</span> bilan<br />
+        Yandex Go‘da tezroq<br />
+        ish boshlang<span className="text-redb">.</span>
+      </motion.h1>
+
+      <motion.p
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.15 }}
+        className="mt-5 text-white/90 text-base md:text-lg max-w-xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
+        data-testid="hero-description"
+      >
+        Yandex Go orqali ishlashni xohlagan haydovchilar uchun ulanish, yordam va qo‘llab-quvvatlash xizmati.
+      </motion.p>
+
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.25 }}
+        className="mt-7 flex flex-wrap items-center gap-3"
+      >
+        <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-cta-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-7 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
+          <Send size={18} /> Telegram orqali bog‘lanish
+        </a>
+        <a href="#aloqa" onClick={goForm} data-testid="hero-cta-form" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
+          <FileText size={17} /> Ariza qoldirish
+        </a>
+        <a href={`tel:${PHONE}`} data-testid="hero-cta-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
+          <Phone size={17} /> Qo‘ng‘iroq qilish
+        </a>
+      </motion.div>
+    </>
+  );
+}
+
+function TrustBadges() {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, delay: 0.4 }}
+      className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl"
+      data-testid="hero-trust-badges"
+    >
+      {badges.map((b, i) => (
+        <div key={i} className="border border-white/10 bg-black/60 backdrop-blur-md p-3">
+          <b.icon size={15} className="text-taxi mb-1.5" />
+          <div className="text-white/85 text-xs font-bold leading-snug">{b.label}</div>
+        </div>
+      ))}
+    </motion.div>
+  );
+}
+
 export default function Hero() {
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
@@ -95,164 +170,119 @@ export default function Hero() {
     document.getElementById("aloqa")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const stage0 = (
-    <div className="relative max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 pt-28 md:pt-32 lg:pt-0 lg:h-full flex items-start lg:items-center pointer-events-none">
-      <div className="lg:max-w-[46%] pointer-events-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="inline-flex items-center gap-3 px-4 py-2 border border-white/15 bg-black/40 backdrop-blur-md mb-6"
-          data-testid="hero-badge"
-        >
-          <span className="w-2 h-2 rounded-full bg-taxi animate-pulse-glow" />
-          <span className="font-mono-accent text-[10px] md:text-xs text-white/80">TOSHKENT / HAYDOVCHILAR UCHUN</span>
-        </motion.div>
+  /* ---------- Mobile / no-WebGL: content first, car below ---------- */
+  if (!cinematic) {
+    return (
+      <section id="hero" ref={ref} data-testid="hero-section" className="relative overflow-hidden">
+        <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
+        <div className="absolute inset-0 radial-glow pointer-events-none" />
+        <div className="relative max-w-[1500px] mx-auto px-5 md:px-10 pt-28 pb-32">
+          <HeroContent goForm={goForm} />
 
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.05 }}
-          className="font-display text-white text-4xl sm:text-5xl lg:text-6xl xl:text-[5rem] tracking-tighter"
-          data-testid="hero-title"
-        >
-          <span className="text-taxi">999 Taxi</span> bilan<br />
-          tezroq ish boshlang<span className="text-redb">.</span>
-        </motion.h1>
+          <div className="relative mt-8 -mx-5 md:mx-0 h-[300px] sm:h-[360px] border-y md:border border-white/10 bg-[#070707]" data-testid="hero-3d-canvas">
+            {webgl ? (
+              <SceneErrorBoundary>
+                <Suspense fallback={null}>
+                  <CinematicScene getProgress={() => 0} cinematic={false} />
+                </Suspense>
+                <SceneLoader />
+              </SceneErrorBoundary>
+            ) : (
+              <img src="/cobalt-taxi.jpg" alt="999 Taxi — Chevrolet Cobalt" className="w-full h-full object-cover" data-testid="hero-image-fallback" />
+            )}
+          </div>
 
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.15 }}
-          className="mt-5 text-white/70 text-base md:text-lg max-w-xl leading-relaxed"
-          data-testid="hero-description"
-        >
-          Yandex Go orqali ishlashni xohlagan haydovchilar uchun ulanish, yordam va qo‘llab-quvvatlash xizmati.
-        </motion.p>
+          <div className="mt-8">
+            <TrustBadges />
+          </div>
+        </div>
+      </section>
+    );
+  }
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.25 }}
-          className="mt-7 flex flex-wrap items-center gap-3"
-        >
-          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-cta-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-7 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
-            <Send size={18} /> Telegram orqali bog‘lanish
-          </a>
-          <a href="#aloqa" onClick={goForm} data-testid="hero-cta-form" className="inline-flex items-center gap-3 border border-white/25 bg-black/30 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
-            <FileText size={17} /> Ariza qoldirish
-          </a>
-          <a href={`tel:${PHONE}`} data-testid="hero-cta-call" className="inline-flex items-center gap-3 border border-white/25 bg-black/30 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
-            <Phone size={17} /> Qo‘ng‘iroq qilish
-          </a>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl"
-          data-testid="hero-trust-badges"
-        >
-          {badges.map((b, i) => (
-            <div key={i} className="border-l-2 border-taxi/40 pl-3 py-1 bg-black/20 backdrop-blur-sm">
-              <b.icon size={16} className="text-taxi mb-1.5" />
-              <div className="text-white/80 text-xs font-bold leading-snug">{b.label}</div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </div>
-  );
-
+  /* ---------- Desktop: cinematic sticky scroll, car on the right ---------- */
   return (
-    <section id="hero" ref={ref} data-testid="hero-section" className={`relative ${cinematic ? "h-[400vh]" : ""}`}>
-      <div className={`${cinematic ? "sticky top-0 h-screen" : "relative min-h-screen"} w-full overflow-hidden`}>
+    <section id="hero" ref={ref} data-testid="hero-section" className="relative h-[400vh]">
+      <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 grid-bg opacity-30 pointer-events-none" />
         <div className="absolute inset-0 radial-glow pointer-events-none" />
 
-        {/* 3D scene */}
         <div className="absolute inset-0" data-testid="hero-3d-canvas">
-          {webgl ? (
-            <SceneErrorBoundary>
-              <Suspense fallback={null}>
-                <CinematicScene getProgress={() => progressRef.current} cinematic={cinematic} />
-              </Suspense>
-              <SceneLoader />
-            </SceneErrorBoundary>
-          ) : (
-            <img src="/cobalt-taxi.jpg" alt="999 Taxi — Chevrolet Cobalt" className="w-full h-full object-cover opacity-70" data-testid="hero-image-fallback" />
-          )}
+          <SceneErrorBoundary>
+            <Suspense fallback={null}>
+              <CinematicScene getProgress={() => progressRef.current} cinematic />
+            </Suspense>
+            <SceneLoader />
+          </SceneErrorBoundary>
         </div>
 
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
 
-        {/* Stage 0 — hero reveal */}
-        {cinematic ? (
-          <motion.div style={{ opacity: o0, pointerEvents: ev0 }} className="absolute inset-0 z-10">
-            {stage0}
-          </motion.div>
-        ) : (
-          <div className="relative z-10 pb-24">{stage0}</div>
-        )}
-
-        {cinematic && (
-          <>
-            {/* Stage 1 — side profile */}
-            <motion.div style={{ opacity: o1 }} className="absolute inset-0 z-10 pointer-events-none flex items-center">
-              <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full">
-                <div className="max-w-md" data-testid="hero-stage-1">
-                  <span className="font-mono-accent text-taxi text-xs">CHEVROLET COBALT</span>
-                  <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3">
-                    Toshkent yo‘llari<br />uchun ideal
-                  </h2>
-                  <p className="mt-4 text-white/65 text-base leading-relaxed">
-                    Keng salon, tejamkor dvigatel va ishonchli yurish — Cobalt taksi ishi uchun eng qulay tanlov.
-                  </p>
-                </div>
+        {/* Stage 0 — hero reveal: text left, car framed right */}
+        <motion.div style={{ opacity: o0, pointerEvents: ev0 }} className="absolute inset-0 z-10">
+          <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 h-full flex items-center pointer-events-none">
+            <div className="max-w-[44%] pointer-events-auto">
+              <HeroContent goForm={goForm} />
+              <div className="mt-9">
+                <TrustBadges />
               </div>
-            </motion.div>
+            </div>
+          </div>
+        </motion.div>
 
-            {/* Stage 2 — details close-up */}
-            <motion.div style={{ opacity: o2 }} className="absolute inset-0 z-10 pointer-events-none flex items-center justify-end">
-              <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full flex justify-end">
-                <div className="max-w-md text-right" data-testid="hero-stage-2">
-                  <span className="font-mono-accent text-taxi text-xs">HAR BIR DETAL JOYIDA</span>
-                  <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3">
-                    TAXI belgisi.<br />999 brendi.
-                  </h2>
-                  <p className="mt-4 text-white/65 text-base leading-relaxed">
-                    Yorqin chiroqlar, brendlangan eshiklar va professional ko‘rinish — mijoz ishonchini oshiradi.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
+        {/* Stage 1 — side profile */}
+        <motion.div style={{ opacity: o1 }} className="absolute inset-0 z-10 pointer-events-none flex items-center">
+          <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full">
+            <div className="max-w-md" data-testid="hero-stage-1">
+              <span className="font-mono-accent text-taxi text-xs">CHEVROLET COBALT</span>
+              <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                Toshkent yo‘llari<br />uchun ideal
+              </h2>
+              <p className="mt-4 text-white/80 text-base leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+                Keng salon, tejamkor dvigatel va ishonchli yurish — Cobalt taksi ishi uchun eng qulay tanlov.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
-            {/* Stage 3 — final CTA */}
-            <motion.div style={{ opacity: o3, pointerEvents: ev3 }} className="absolute inset-0 z-10 flex items-center justify-center">
-              <div className="text-center px-5" data-testid="hero-stage-3">
-                <span className="font-mono-accent text-taxi text-xs">SHAHAR SIZNI KUTMOQDA</span>
-                <h2 className="font-display text-white text-4xl lg:text-7xl tracking-tighter mt-3">
-                  999 Taxi bilan<br />yo‘lga chiqing
-                </h2>
-                <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                  <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-stage3-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
-                    <Send size={18} /> Telegram orqali bog‘lanish
-                  </a>
-                  <a href={`tel:${PHONE}`} data-testid="hero-stage3-call" className="inline-flex items-center gap-3 border border-white/25 bg-black/30 backdrop-blur text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
-                    <Phone size={17} /> Qo‘ng‘iroq qilish
-                  </a>
-                </div>
-              </div>
-            </motion.div>
+        {/* Stage 2 — details close-up */}
+        <motion.div style={{ opacity: o2 }} className="absolute inset-0 z-10 pointer-events-none flex items-center justify-end">
+          <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full flex justify-end">
+            <div className="max-w-md text-right" data-testid="hero-stage-2">
+              <span className="font-mono-accent text-taxi text-xs">HAR BIR DETAL JOYIDA</span>
+              <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+                TAXI belgisi.<br />999 brendi.
+              </h2>
+              <p className="mt-4 text-white/80 text-base leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+                Yorqin chiroqlar, brendlangan eshiklar va professional ko‘rinish — mijoz ishonchini oshiradi.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
-            {/* Scroll hint */}
-            <motion.div style={{ opacity: hint }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none" data-testid="hero-scroll-hint">
-              <span className="font-mono-accent text-white/50 text-[10px]">PASTGA AYLANTIRING</span>
-              <ChevronDown size={18} className="text-taxi animate-bounce" />
-            </motion.div>
-          </>
-        )}
+        {/* Stage 3 — final CTA */}
+        <motion.div style={{ opacity: o3, pointerEvents: ev3 }} className="absolute inset-0 z-10 flex items-center justify-center">
+          <div className="text-center px-5" data-testid="hero-stage-3">
+            <span className="font-mono-accent text-taxi text-xs">SHAHAR SIZNI KUTMOQDA</span>
+            <h2 className="font-display text-white text-4xl lg:text-7xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              999 Taxi bilan<br />yo‘lga chiqing
+            </h2>
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-stage3-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
+                <Send size={18} /> Telegram orqali bog‘lanish
+              </a>
+              <a href={`tel:${PHONE}`} data-testid="hero-stage3-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
+                <Phone size={17} /> Qo‘ng‘iroq qilish
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Scroll hint */}
+        <motion.div style={{ opacity: hint }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none" data-testid="hero-scroll-hint">
+          <span className="font-mono-accent text-white/50 text-[10px]">PASTGA AYLANTIRING</span>
+          <ChevronDown size={18} className="text-taxi animate-bounce" />
+        </motion.div>
       </div>
     </section>
   );

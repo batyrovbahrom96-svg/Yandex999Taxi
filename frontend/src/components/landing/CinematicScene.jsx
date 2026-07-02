@@ -5,19 +5,22 @@ import * as THREE from "three";
 import { CobaltModel } from "@/components/landing/CobaltModel";
 
 const KEYS = [
-  { pos: [3.9, 1.7, -5.4], look: [0, 0.6, -0.4] },
-  { pos: [6.2, 1.15, -0.2], look: [0, 0.65, 0] },
-  { pos: [1.7, 1.6, -3.0], look: [0.1, 1.0, -0.9] },
-  { pos: [-4.4, 2.5, -6.4], look: [0, 0.5, 0] },
+  { pos: [5.4, 1.9, -7.6], look: [1.5, 0.55, 0.95] },
+  { pos: [7.2, 1.35, -0.3], look: [0, 0.6, 1.35] },
+  { pos: [2.7, 1.9, -4.3], look: [-0.6, 0.9, -1.5] },
+  { pos: [-5.2, 2.7, -7.4], look: [0, 0.45, 0] },
 ];
 
 const smooth = (t) => t * t * (3 - 2 * t);
 
 function CameraRig({ getProgress, cinematic }) {
-  const vec = useMemo(() => ({ p: new THREE.Vector3(), l: new THREE.Vector3(), cl: new THREE.Vector3(0, 0.6, -0.4) }), []);
+  const vec = useMemo(() => ({ p: new THREE.Vector3(), l: new THREE.Vector3(), cl: new THREE.Vector3(1.5, 0.55, 0.95) }), []);
   useFrame(({ camera }) => {
-    let p = 0;
-    if (cinematic) p = THREE.MathUtils.clamp(getProgress(), 0, 1);
+    if (!cinematic) {
+      camera.lookAt(0, 0.65, 0);
+      return;
+    }
+    const p = THREE.MathUtils.clamp(getProgress(), 0, 1);
     const scaled = p * 3;
     const seg = Math.min(2, Math.floor(scaled));
     const t = smooth(scaled - seg);
@@ -82,31 +85,31 @@ function CityBackdrop() {
 }
 
 function Road() {
-  const dashes = useMemo(() => Array.from({ length: 14 }, (_, i) => -18 + i * 2.6), []);
+  const dashes = useMemo(() => Array.from({ length: 12 }, (_, i) => -14 + i * 2.6), []);
   return (
     <group>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} receiveShadow>
-        <planeGeometry args={[60, 12]} />
-        <meshStandardMaterial color="#0a0a0a" roughness={0.92} />
+        <planeGeometry args={[40, 9]} />
+        <meshStandardMaterial color="#070707" roughness={0.95} />
       </mesh>
-      {/* route glow strips */}
-      {[-3.4, 3.4].map((z, i) => (
+      {/* subtle lane edges */}
+      {[-2.9, 2.9].map((z, i) => (
         <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, z]}>
-          <planeGeometry args={[60, 0.08]} />
-          <meshBasicMaterial color="#FFD400" transparent opacity={0.5} />
+          <planeGeometry args={[40, 0.05]} />
+          <meshBasicMaterial color="#FFD400" transparent opacity={0.18} />
         </mesh>
       ))}
       {/* dashed center lines */}
       {dashes.map((x, i) => (
         <mesh key={i} rotation={[-Math.PI / 2, 0, 0]} position={[x, -0.01, 0]}>
-          <planeGeometry args={[1.3, 0.1]} />
-          <meshBasicMaterial color="#ffffff" transparent opacity={0.22} />
+          <planeGeometry args={[1.2, 0.08]} />
+          <meshBasicMaterial color="#ffffff" transparent opacity={0.14} />
         </mesh>
       ))}
       {/* showcase ring */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.0, 0]}>
-        <ringGeometry args={[3.3, 3.42, 64]} />
-        <meshBasicMaterial color="#FFD400" transparent opacity={0.45} />
+        <ringGeometry args={[3.3, 3.4, 64]} />
+        <meshBasicMaterial color="#FFD400" transparent opacity={0.28} />
       </mesh>
     </group>
   );
@@ -117,15 +120,16 @@ export default function CinematicScene({ getProgress, cinematic = true }) {
     <Canvas
       dpr={cinematic ? [1, 2] : [1, 1.5]}
       shadows
-      camera={{ position: [3.9, 1.7, -5.4], fov: 34 }}
+      camera={{ position: cinematic ? [5.4, 1.9, -7.6] : [6.4, 2.2, -9.4], fov: 32 }}
       gl={{ antialias: true, alpha: true }}
       style={{ background: "transparent" }}
     >
-      <ambientLight intensity={0.4} />
-      <directionalLight position={[6, 9, 5]} intensity={1.3} castShadow shadow-mapSize={[1024, 1024]} />
-      <pointLight position={[-6, 4, -4]} intensity={1.6} color="#FFD400" />
-      <pointLight position={[-4, 1.5, 5]} intensity={0.25} color="#E11D2E" />
-      <fog attach="fog" args={["#050505", 14, 30]} />
+      <ambientLight intensity={0.35} />
+      <hemisphereLight args={["#ffffff", "#1a1a1a", 0.55]} />
+      <directionalLight position={[6, 9, 5]} intensity={1.1} castShadow shadow-mapSize={[1024, 1024]} shadow-radius={6} />
+      <pointLight position={[-6, 4, -4]} intensity={1.2} color="#FFD400" />
+      <pointLight position={[-4, 1.5, 5]} intensity={0.2} color="#E11D2E" />
+      <fog attach="fog" args={["#050505", 12, 26]} />
 
       <Suspense fallback={null}>
         <CityBackdrop />

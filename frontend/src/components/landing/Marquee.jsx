@@ -4,8 +4,8 @@ const items = [
   "HAYDOVCHILAR UCHUN XIZMAT",
   "TEZKOR ULANISH",
   "YANDEX GO ULANISH",
-  "ТАКСИ РАБОТА ТАШКЕНТ",
-  "ЯНДЕКС GO ВОДИТЕЛЬ",
+  "TOSHKENT BO‘YLAB XIZMAT",
+  "HAYDOVCHILARGA YORDAM",
 ];
 
 export default function Marquee() {

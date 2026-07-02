@@ -74,11 +74,12 @@ export function CobaltModel(props) {
       const m = o.material;
       if (m.name === "Realistic_Car_Paint") {
         m.color = new THREE.Color("#FFD400");
-        m.metalness = 0.55;
-        m.roughness = 0.32;
+        m.metalness = 0.3;
+        m.roughness = 0.18;
+        m.envMapIntensity = 1.1;
         if ("clearcoat" in m) {
           m.clearcoat = 1;
-          m.clearcoatRoughness = 0.06;
+          m.clearcoatRoughness = 0.04;
         }
       } else if (m.name === "Car_windshield_glass") {
         m.transparent = true;
@@ -100,13 +101,13 @@ export function CobaltModel(props) {
       </group>
 
       {/* Taxi roof sign */}
-      <group position={[0, 1.26, -0.1]}>
+      <group position={[0, 1.28, -0.1]}>
         <mesh>
-          <boxGeometry args={[0.52, 0.18, 0.26]} />
-          <meshStandardMaterial color="#ff8a00" emissive="#ff7a00" emissiveIntensity={0.9} />
+          <boxGeometry args={[0.64, 0.22, 0.3]} />
+          <meshStandardMaterial color="#ff8a00" emissive="#ff7a00" emissiveIntensity={1.2} />
         </mesh>
-        <TextPlane text="TAXI" color="#0a0a0a" width={0.42} height={0.16} position={[0, 0, 0.135]} />
-        <TextPlane text="TAXI" color="#0a0a0a" width={0.42} height={0.16} position={[0, 0, -0.135]} rotation={[0, Math.PI, 0]} />
+        <TextPlane text="TAXI" color="#0a0a0a" width={0.5} height={0.19} position={[0, 0, 0.155]} />
+        <TextPlane text="TAXI" color="#0a0a0a" width={0.5} height={0.19} position={[0, 0, -0.155]} rotation={[0, Math.PI, 0]} />
       </group>
 
       <SideBranding side="right" />
