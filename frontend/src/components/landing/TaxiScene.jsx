@@ -18,8 +18,13 @@ function TaxiCar() {
     group.current.position.y = Math.sin(t * 0.8) * 0.05;
   });
 
+  const redAccent = new THREE.MeshStandardMaterial({
+    color: "#E11D2E",
+    metalness: 0.5,
+    roughness: 0.35,
+  });
   const paint = new THREE.MeshStandardMaterial({
-    color: "#FFCC00",
+    color: "#FFD400",
     metalness: 0.75,
     roughness: 0.28,
   });
@@ -90,11 +95,11 @@ function TaxiCar() {
         </mesh>
       ))}
 
-      {/* Black checker stripe (taxi motif) */}
-      <mesh position={[-0.05, 0.55, 0.76]} material={rubber}>
+      {/* Red brand stripe (999 motif) */}
+      <mesh position={[-0.05, 0.55, 0.76]} material={redAccent}>
         <boxGeometry args={[2.6, 0.14, 0.01]} />
       </mesh>
-      <mesh position={[-0.05, 0.55, -0.76]} material={rubber}>
+      <mesh position={[-0.05, 0.55, -0.76]} material={redAccent}>
         <boxGeometry args={[2.6, 0.14, 0.01]} />
       </mesh>
 
