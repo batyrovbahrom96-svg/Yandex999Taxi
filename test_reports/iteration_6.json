@@ -1,0 +1,37 @@
+{
+  "summary": "Frontend-only regression for 999 Taxi landing after Cobalt GLB re-optimization + material/decal fix. 3D visual integrity is EXCELLENT: crisp glossy yellow sedan silhouette, chrome/silver alloy wheels (no more white blobs), realistic transparent headlights, continuous checker band + aligned '999 TAXI' door decal, orange roof taxi sign. GLB /models/cobalt.glb?v=3 returns 200. Hero stages 0/1/2/3 all render with sticky canvas, no blank frames. Stage 3 CTAs correct (t.me/t_boxodir, tel:+998781139991). Desktop AND mobile: zero console errors, zero runtime overlay. Mobile 390x844: no horizontal overflow, sticky bottom CTA bar present, bordered canvas below CTAs renders car. All sections present (marquee, about, services, driver-advantages, testimonials, office-location, faq, leadform, final-cta, footer). Footer 3D credit 'Q.SARDOR / CC BY 4.0' present.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/test_reports/stage0_desktop.png",
+    "/app/test_reports/stage1_desktop.png",
+    "/app/test_reports/stage2_desktop.png",
+    "/app/test_reports/stage3_desktop.png",
+    "/app/test_reports/mobile_hero.png"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Leadform inputs lack name attributes and data-testid; adding data-testid='leadform-name', 'leadform-phone', 'leadform-submit' would make e2e tests deterministic (currently must locate by placeholder).",
+    "FAQ accordion buttons lack stable data-testid — added would help regression suites.",
+    "Lenis smooth scroll causes Playwright scroll_into_view_if_needed to time out on off-screen elements; consider exposing a `window.__lenis?.scrollTo` helper or briefly disabling Lenis in a test-mode flag."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Pure frontend app (no backend). GLB re-optimization (v=3, 1.33MB draco, full geometry preserved) fully resolves the previous 'broken car' bug. First-visit 3D load ~8-12s. Use animations='disabled' + timeout=60000 for stage-3 screenshots. For lead form regression, locate inputs by placeholder ('Ismingiz', '+998', '@username') because inputs have no name/data-testid. Suggest main agent add data-testid attributes to lead form + FAQ for future automation reliability.",
+  "verified_3d_visual_checklist": {
+    "crisp_body_panels": true,
+    "silver_alloy_wheels": true,
+    "realistic_headlights": true,
+    "checker_band_continuous": true,
+    "999_taxi_door_decal_aligned": true,
+    "orange_roof_taxi_sign": true,
+    "glossy_yellow_paint": true
+  }
+}

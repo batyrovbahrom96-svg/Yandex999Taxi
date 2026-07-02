@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
-export const COBALT_URL = "/models/cobalt.glb?v=2";
+export const COBALT_URL = "/models/cobalt.glb?v=3";
 
 function makeTextTexture(text, { color = "#000", outline = null, w = 512, h = 256, fontSize = 150 }) {
   const canvas = document.createElement("canvas");
@@ -34,27 +34,61 @@ export function TextPlane({ text, color, outline, width, height, position, rotat
   );
 }
 
-function Checkers({ x, rotY }) {
-  return (
-    <group>
-      {Array.from({ length: 10 }).map((_, i) => (
-        <mesh key={i} position={[x, 0.82, -0.99 + i * 0.22]} rotation={[0, rotY, 0]}>
-          <planeGeometry args={[0.13, 0.13]} />
-          <meshStandardMaterial color={i % 2 === 0 ? "#0a0a0a" : "#f5f5f5"} roughness={0.6} />
-        </mesh>
-      ))}
-    </group>
-  );
+function makeBrandTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1024;
+  canvas.height = 256;
+  const ctx = canvas.getContext("2d");
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "left";
+  ctx.font = "900 185px 'Arial Black', Arial, sans-serif";
+  ctx.lineWidth = 18;
+  ctx.strokeStyle = "#0a0a0a";
+  ctx.strokeText("999", 36, 140);
+  ctx.fillStyle = "#E11D2E";
+  ctx.fillText("999", 36, 140);
+  ctx.font = "900 128px 'Arial Black', Arial, sans-serif";
+  ctx.fillStyle = "#0a0a0a";
+  ctx.fillText("TAXI", 500, 146);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.anisotropy = 8;
+  return tex;
+}
+
+function makeCheckerTexture() {
+  const canvas = document.createElement("canvas");
+  canvas.width = 1024;
+  canvas.height = 128;
+  const ctx = canvas.getContext("2d");
+  const s = 64;
+  for (let row = 0; row < 2; row++) {
+    for (let col = 0; col < 16; col++) {
+      ctx.fillStyle = (row + col) % 2 === 0 ? "#0a0a0a" : "#f2f2f2";
+      ctx.fillRect(col * s, row * s, s, s);
+    }
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.anisotropy = 8;
+  return tex;
 }
 
 function SideBranding({ side }) {
-  const x = side === "right" ? 0.93 : -0.93;
+  const x = side === "right" ? 0.925 : -0.925;
   const rotY = side === "right" ? Math.PI / 2 : -Math.PI / 2;
+  const brandTex = useMemo(() => makeBrandTexture(), []);
+  const checkerTex = useMemo(() => makeCheckerTexture(), []);
   return (
     <group>
-      <TextPlane text="999" color="#E11D2E" outline="#050505" width={0.62} height={0.31} position={[x, 0.55, -0.42]} rotation={[0, rotY, 0]} />
-      <TextPlane text="TAXI" color="#0a0a0a" width={0.44} height={0.22} position={[x, 0.55, 0.5]} rotation={[0, rotY, 0]} />
-      <Checkers x={x} rotY={rotY} />
+      {/* continuous taxi checker band across doors */}
+      <mesh position={[x, 0.8, 0.05]} rotation={[0, rotY, 0]}>
+        <planeGeometry args={[1.7, 0.22]} />
+        <meshStandardMaterial map={checkerTex} roughness={0.5} />
+      </mesh>
+      {/* aligned 999 TAXI door branding */}
+      <mesh position={[x, 0.52, -0.15]} rotation={[0, rotY, 0]}>
+        <planeGeometry args={[1.2, 0.3]} />
+        <meshBasicMaterial map={brandTex} transparent />
+      </mesh>
     </group>
   );
 }
@@ -87,8 +121,40 @@ export function CobaltModel(props) {
         m.color = new THREE.Color("#0d1117");
         m.metalness = 0.6;
         m.roughness = 0.05;
-      } else if (m.name && m.name.includes("light")) {
-        m.emissiveIntensity = Math.max(m.emissiveIntensity || 0, 0.6);
+      } else if (m.name.startsWith("roda")) {
+        const lum = m.color ? (m.color.r + m.color.g + m.color.b) / 3 : 0;
+        if (lum > 0.35) {
+          m.color = new THREE.Color("#c9ccd2");
+          m.metalness = 0.9;
+          m.roughness = 0.28;
+        } else {
+          m.color = new THREE.Color("#101010");
+          m.metalness = 0.05;
+          m.roughness = 0.92;
+        }
+      } else if (m.name.includes("front_light")) {
+        m.transparent = true;
+        m.opacity = 0.35;
+        m.color = new THREE.Color("#dfe8f0");
+        m.metalness = 1;
+        m.roughness = 0.06;
+        if (m.emissive) {
+          m.emissive = new THREE.Color("#9fc4e8");
+          m.emissiveIntensity = 0.2;
+        }
+      } else if (m.name.includes("rear_light")) {
+        m.transparent = true;
+        m.opacity = 0.65;
+        m.color = new THREE.Color("#7a0d12");
+        m.roughness = 0.15;
+        if (m.emissive) {
+          m.emissive = new THREE.Color("#66080c");
+          m.emissiveIntensity = 0.6;
+        }
+      } else if (m.name.startsWith("escape")) {
+        m.color = new THREE.Color("#b8bcc2");
+        m.metalness = 0.95;
+        m.roughness = 0.25;
       }
     });
     return { s, offset: [-center.x * s, -box.min.y * s, -center.z * s] };
