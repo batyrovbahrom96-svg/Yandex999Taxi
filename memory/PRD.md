@@ -29,6 +29,14 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Section numbering 01–11 sequential; Trust placeholder removed
 - Testing: iteration_3.json — 100% pass; yarn build exit 0
 
+## Implemented (2026-06) — Iteration 3 (real GLB + cinematic scroll)
+- Real user-uploaded Chevrolet Cobalt LTZ 2014 GLB (Q.SARDOR / CC BY 4.0, credit in footer) optimized 33.4MB → 270KB via gltf-transform (weld+simplify err 0.001+draco, `--no-palette` REQUIRED to preserve material names Realistic_Car_Paint / Car_windshield_glass) at /public/models/cobalt.glb (URL ?v=2 cache-bust)
+- CobaltModel.jsx: draco useGLTF, paint recolored #FFD400, transparent glass, roof TAXI sign, red 999 + TAXI + checker decals both sides (canvas textures), normalized bottom y=0 length 4.3 along z, FRONT of car faces -z
+- Peachworlds-style cinematic hero: desktop = 400vh sticky section, 4 camera keyframes (front reveal → side → close-up → final CTA) driven by scrollYProgress, stage overlay texts fade in/out; mobile <1024px = single screen auto-rotating car; 3D loader % overlay (useProgress), lazy-loaded scene, WebGL/image fallback (/cobalt-taxi.jpg), road + route glow + city backdrop + fog
+- CRITICAL: main uses `overflow-x-clip` NOT `overflow-x-hidden` (hidden breaks position:sticky)
+- Lead form reset now clears fields
+- Testing: iteration_4.json — 100% pass (desktop cinematic stages, sticky, mobile, regressions, zero console errors); yarn build exit 0
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`

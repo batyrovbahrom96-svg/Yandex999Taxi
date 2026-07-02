@@ -107,7 +107,10 @@ export default function LeadForm() {
               </p>
               <button
                 data-testid="leadform-reset"
-                onClick={() => setSent(false)}
+                onClick={() => {
+                  setSent(false);
+                  setForm({ name: "", phone: "", telegram: "", car: "bor", license: "bor", note: "" });
+                }}
                 className="mt-8 border border-white/25 text-white font-bold px-6 py-3 hover:border-taxi hover:text-taxi transition-colors text-sm"
               >
                 Yana ariza yuborish
