@@ -1,0 +1,26 @@
+{
+  "summary": "Frontend-only regression of 999 Taxi Uzbek landing with cinematic scroll hero. Desktop 1920: page loads, GLB cobalt.glb?v=2 → 200, draco decoders load from gstatic, scene-loader appears then disappears, hero-title/CTAs/badges/scroll-hint all render, stages 1/2/3 reach opacity 1 at ~1.4x/2.4x/3.5x innerHeight, canvas remains sticky at scroll 3.5x (top=-400px within viewport), all downstream sections render (marquee/about/services/whyus/driver-advantages/process/requirements/trust/testimonials/office-location/faq/leadform/final-cta/footer), footer-3d-credit text = '3D model credit: Q.SARDOR / CC BY 4.0'. LeadForm submit → t.me popup opened with correct prefilled text, leadform-success renders with 'Rahmat!'. FAQ has 6 accordion buttons and expand/collapse clickable. Mobile 390x844: hero height == innerHeight (no 400vh sticky), hero-title + mobile-sticky-cta visible, no horizontal overflow (390==390), zero console errors on desktop and mobile.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [
+      {"flow": "LeadForm reset", "issue": "'Yana ariza yuborish' button only toggles sent=false but does NOT clear form fields (name/phone/car/license/note persist from previous submission). Minor UX — user must manually clear before next submit.", "affected_selectors": ["leadform-reset","leadform-name","leadform-phone"]}
+    ],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/test_reports/iteration_4.json"],
+  "action_items": [
+    "Optional: In LeadForm.jsx line 110, extend onClick to also reset form state, e.g. () => { setSent(false); setForm({name:'',phone:'',telegram:'',car:'Bor',license:'Bor',note:''}); }"
+  ],
+  "critical_code_review_comments": [
+    "Hero.jsx uses window.innerWidth in useState initializer — safe in browser but would break SSR (not used here, so fine).",
+    "SceneLoader relies on drei useProgress which is global; if other GLTFs are added later, loader may hide prematurely.",
+    "LeadForm reset button does not clear form state (see integration_issues)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Lenis smooth-scroll active — always sleep 2.5-3s after window.scrollTo. GLB + draco need ~6-9s on first paint. leadform-car and leadform-license are <select> (Bor/Yo'q), not text inputs — use select_option or skip. Popups from Telegram CTAs must be intercepted via page.context.on('page'). All section testids follow '<name>-section' convention (marquee-section, about-section, etc), not bare '<name>'."
+}

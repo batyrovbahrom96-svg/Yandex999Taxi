@@ -19,7 +19,7 @@ import Footer from "@/components/landing/Footer";
 
 export default function Landing() {
   return (
-    <main data-testid="landing-page" className="min-h-screen bg-[#050505] text-white font-body overflow-x-hidden">
+    <main data-testid="landing-page" className="min-h-screen bg-[#050505] text-white font-body overflow-x-clip">
       <ScrollProgress />
       <Navigation />
       <Hero />

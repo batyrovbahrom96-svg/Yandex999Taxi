@@ -66,6 +66,8 @@ export default function Footer() {
           </p>
           <p className="mt-4 text-white/30 text-xs">
             © {new Date().getFullYear()} 999 Taxi. Barcha huquqlar himoyalangan.
+            <span className="mx-2 text-white/20">|</span>
+            <span data-testid="footer-3d-credit">3D model credit: Q.SARDOR / CC BY 4.0</span>
           </p>
         </div>
       </div>
