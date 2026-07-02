@@ -22,6 +22,13 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Deleted obsolete: HorizontalScroll, Benefits, Tariffs, HowItWorks, CityMap, AppDownload, ScrollProgress
 - Testing: iteration_2.json — frontend 100% pass (all CTAs, form flow, FAQ, mobile sticky bar, no overflow, no English leftovers). `yarn build` passes (exit 0).
 
+## Implemented (2026-06) — Iteration 2
+- Real uploaded logo (/public/logo-999.png) in navbar/footer + favicon; Cobalt reference photo saved at /public/cobalt-taxi.jpg
+- 3D hero rebuilt: Chevrolet Cobalt-style sedan (3-box silhouette, chrome grille + gold bowtie, orange TAXI roof sign), passengers inside (driver + 2 clients), red "999" + TAXI + checker decals on both doors (canvas textures — drei <Text>/troika crashes with installed three version, do NOT reuse it), city backdrop buildings + glowing showcase platform
+- New sections: DriverAdvantages (#tizim, yellow bg, 6 cards, section 04), Testimonials (#fikrlar, 6 generated Uzbek driver reviews — user explicitly requested generation, section 08), OfficeLocation (#manzil, Google Maps embed placeholder "Tashkent" — EXACT OFFICE ADDRESS STILL NEEDED FROM USER, section 09), top ScrollProgress bar
+- Section numbering 01–11 sequential; Trust placeholder removed
+- Testing: iteration_3.json — 100% pass; yarn build exit 0
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
@@ -29,7 +36,6 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Sections: `/app/frontend/src/components/landing/*.jsx`
 
 ## Backlog
-- P1: Swap text logo with real uploaded logo file when user attaches it (Logo.jsx)
-- P2: Real driver testimonials when available (replace placeholder in Trust.jsx)
+- P1: Replace Google Maps placeholder ("Tashkent") with the exact office address + pin once user provides it (OfficeLocation.jsx, MAPS_QUERY const)
 - P2: Optional backend lead storage + admin view if user later wants leads in a database
 - P2: Analytics on CTA clicks (Telegram vs call vs form) for conversion tracking
