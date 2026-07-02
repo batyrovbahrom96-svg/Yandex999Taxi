@@ -37,6 +37,15 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Lead form reset now clears fields
 - Testing: iteration_4.json — 100% pass (desktop cinematic stages, sticky, mobile, regressions, zero console errors); yarn build exit 0
 
+## Implemented (2026-06) — Iteration 4 (premium polish pass, user bug report)
+- Desktop hero: camera reframed (stage0 look [1.5,0.55,0.95] pushes car RIGHT — note: shifting lookAt toward screen-LEFT moves car right), car ~20% smaller, text max-w-44% left, zero overlap
+- Mobile/tablet (<1024px): content-first layout — headline → paragraph → CTAs → separate bordered 300px canvas below → trust badges; car never behind text
+- Premium paint (metalness .3, roughness .18, clearcoat 1), continuous checker-band texture + single aligned "999 TAXI" door decal texture, bigger roof sign, hemisphere studio light, darker 40x9 road with subtle lanes
+- Marquee: Russian removed, Uzbek-only; headline: "999 Taxi bilan Yandex Go'da tezroq ish boshlang"; badge "HAYDOVCHILAR UCHUN ULANISH XIZMATI" (driver positioning Option A)
+- Lead form reset clears fields
+- Testing: iteration_5.json — 100% pass at 1440/1280/768/390; build exit 0
+- NOTE: CobaltModel.jsx once got a duplicated tail from partial search_replace — file is clean now, verify before bulk edits
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
