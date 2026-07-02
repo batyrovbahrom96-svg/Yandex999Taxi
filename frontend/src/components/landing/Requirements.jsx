@@ -19,7 +19,7 @@ export default function Requirements() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-mono-accent text-taxi text-xs">05 / TALABLAR</span>
+          <span className="font-mono-accent text-taxi text-xs">06 / TALABLAR</span>
           <h2 className="font-display text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter mt-4">
             Boshlash uchun<br />nimalar kerak?
           </h2>

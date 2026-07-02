@@ -47,7 +47,7 @@ export default function LeadForm() {
           transition={{ duration: 0.6 }}
           className="lg:col-span-5"
         >
-          <span className="font-mono-accent text-taxi text-xs">08 / ALOQA</span>
+          <span className="font-mono-accent text-taxi text-xs">11 / ALOQA</span>
           <h2 className="font-display text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter mt-4">
             Ariza qoldiring
           </h2>

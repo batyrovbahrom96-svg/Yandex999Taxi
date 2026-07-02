@@ -21,7 +21,7 @@ export default function Process() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-3xl mx-auto"
         >
-          <span className="font-mono-accent text-taxi text-xs">04 / JARAYON</span>
+          <span className="font-mono-accent text-taxi text-xs">05 / JARAYON</span>
           <h2 className="font-display text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter mt-4">
             Qanday ishlaydi?
           </h2>

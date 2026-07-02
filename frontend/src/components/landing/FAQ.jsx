@@ -44,7 +44,7 @@ export default function FAQ() {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <span className="font-mono-accent text-taxi text-xs">07 / SAVOL-JAVOB</span>
+          <span className="font-mono-accent text-taxi text-xs">10 / SAVOL-JAVOB</span>
           <h2 className="font-display text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter mt-4">
             Ko‘p so‘raladigan savollar
           </h2>

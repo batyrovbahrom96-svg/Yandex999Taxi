@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Phone, Send, Clock, MapPin, MessageSquareQuote } from "lucide-react";
+import { Phone, Send, Clock, MapPin } from "lucide-react";
 import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL, WORK_HOURS, LOCATION } from "@/lib/brand";
 
 const blocks = [
@@ -21,7 +21,7 @@ export default function Trust() {
           transition={{ duration: 0.6 }}
           className="max-w-3xl"
         >
-          <span className="font-mono-accent text-taxi text-xs">06 / ISHONCH</span>
+          <span className="font-mono-accent text-taxi text-xs">07 / ISHONCH</span>
           <h2 className="font-display text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter mt-4">
             Ishonchli va tezkor aloqa
           </h2>
@@ -68,20 +68,6 @@ export default function Trust() {
             );
           })}
         </div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          data-testid="testimonials-placeholder"
-          className="mt-10 border border-dashed border-white/20 bg-white/[0.02] p-8 flex items-center gap-4"
-        >
-          <MessageSquareQuote size={26} className="text-taxi shrink-0" />
-          <p className="text-white/55 text-sm md:text-base">
-            Haydovchilar fikrlari tez orada qo‘shiladi.
-          </p>
-        </motion.div>
       </div>
     </section>
   );
