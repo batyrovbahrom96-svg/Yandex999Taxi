@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { MapPin, Clock, Phone, Send, Navigation2 } from "lucide-react";
-import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL, WORK_HOURS } from "@/lib/brand";
+import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL, WORK_HOURS, LOCATION } from "@/lib/brand";
 
-const MAPS_QUERY = "Tashkent, Uzbekistan";
+const MAPS_QUERY = "Qorasuv ko'chasi 39, Yashnobod tumani, Tashkent 100014, Uzbekistan";
 
 export default function OfficeLocation() {
   return (
@@ -31,8 +31,7 @@ export default function OfficeLocation() {
               </span>
               <div>
                 <div className="font-mono-accent text-white/40 text-[10px]">Manzil</div>
-                <div className="text-white font-bold">Toshkent shahri, O‘zbekiston</div>
-                <div className="text-white/45 text-xs mt-0.5">Aniq mo‘ljal uchun Telegram orqali yozing</div>
+                <div className="text-white font-bold">{LOCATION}</div>
               </div>
             </div>
             <div className="flex items-center gap-4" data-testid="office-hours">
@@ -49,7 +48,7 @@ export default function OfficeLocation() {
                 <Phone size={17} />
               </span>
               <div>
-                <div className="font-mono-accent text-white/40 text-[10px]">Telefon</div>
+                <div className="font-mono-accent text-white/40 text-[10px]">Call-markaz</div>
                 <a href={`tel:${PHONE}`} className="text-white font-bold hover:text-taxi transition-colors">{PHONE_DISPLAY}</a>
               </div>
             </div>
@@ -89,7 +88,7 @@ export default function OfficeLocation() {
         >
           <iframe
             title="999 Taxi ofis manzili"
-            src={`https://www.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&z=12&output=embed`}
+            src={`https://www.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&z=16&output=embed`}
             className="w-full h-[380px] md:h-[460px] grayscale-[35%] contrast-[1.05]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
@@ -97,7 +96,7 @@ export default function OfficeLocation() {
           />
           <div className="absolute top-4 left-4 bg-black/85 backdrop-blur px-4 py-2.5 flex items-center gap-2 border border-taxi/40">
             <MapPin size={14} className="text-taxi" />
-            <span className="text-white text-xs font-bold">999 Taxi — Toshkent</span>
+            <span className="text-white text-xs font-bold">999 Taxi — Qorasuv ko‘chasi, 39</span>
           </div>
         </motion.div>
       </div>

@@ -52,7 +52,7 @@ export default function Footer() {
               <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="footer-telegram" className="inline-flex items-center gap-2 text-white/70 hover:text-taxi text-sm font-bold transition-colors w-fit">
                 <Send size={14} className="text-taxi" /> {TELEGRAM_HANDLE}
               </a>
-              <span className="text-white/50 text-sm">Toshkent, O‘zbekiston</span>
+              <span className="text-white/50 text-sm">Yashnobod tumani, Qorasuv ko‘chasi, 39-uy, Toshkent, 100014</span>
               <span className="text-white/50 text-sm">Har kuni 09:00–21:00</span>
             </div>
           </div>

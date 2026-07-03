@@ -52,6 +52,11 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Decals: continuous checker-band texture (1.7 wide) + single aligned "999 TAXI" door texture (both sides)
 - Testing: iteration_6.json — 100% pass, full 3D visual checklist verified (crisp panels, silver rims, realistic lights, aligned decals); build exit 0
 
+## Implemented (2026-06) — Iteration 6 (real office address)
+- Official address wired everywhere (brand.js LOCATION, OfficeLocation, Trust, LeadForm, Footer): "Yashnobod tumani, Qorasuv ko'chasi, 39-uy, Toshkent, 100014"
+- Google Maps embed pinned to Qorasuv ko'chasi 39, Yashnobod (z=16); phone labeled "Call-markaz" +998 78 113 99 91 (user wrote "+9989 (78)..." — normalized to valid UZ format)
+- Self-tested via screenshot: address/map/phone verified in office section
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
