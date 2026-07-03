@@ -81,6 +81,9 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 ## Implemented (2026-07) — Iteration 11 (production domain check)
 - User reported https://999taxi.com "doesn't work". Verified twice (self + testing agent iteration_9.json, 5/5 PASS): production is FULLY FUNCTIONAL — DNS via Cloudflare, HTTPS 200, hero/3D/GLB/video/CTAs/lead form/mobile all green, www redirects to apex. Root cause: client-side DNS propagation / ISP or browser cache at the user's location. No code changes.
 
+## Implemented (2026-07) — Iteration 12 (badge removal)
+- Removed "Made with Emergent" badge: deleted the <a id="emergent-badge"> block AND the assets.emergent.sh/scripts/emergent-main.js script tag from public/index.html (script was re-injecting the badge at runtime). No React component rendered it (src/ clean). GOTCHA: public/index.html changes need `sudo supervisorctl restart frontend` — dev server caches it. Verified: 0 badge elements in preview + build/index.html clean. If the deploy pipeline re-injects it on production, that's platform-side → support@emergent.sh.
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
