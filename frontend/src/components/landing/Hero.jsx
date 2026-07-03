@@ -162,7 +162,6 @@ export default function Hero() {
 
   const o0 = useTransform(scrollYProgress, [0, 0.16, 0.28], [1, 1, 0]);
   const ev0 = useTransform(o0, (v) => (v > 0.4 ? "auto" : "none"));
-  const o1 = useTransform(scrollYProgress, [0.28, 0.37, 0.52, 0.6], [0, 1, 1, 0]);
   const o2 = useTransform(scrollYProgress, [0.6, 0.68, 0.8, 0.86], [0, 1, 1, 0]);
   const o3 = useTransform(scrollYProgress, [0.87, 0.96], [0, 1]);
   const ev3 = useTransform(o3, (v) => (v > 0.4 ? "auto" : "none"));
@@ -229,21 +228,6 @@ export default function Hero() {
               <div className="mt-9">
                 <TrustBadges />
               </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Stage 1 — side profile */}
-        <motion.div style={{ opacity: o1 }} className="absolute inset-0 z-10 pointer-events-none flex items-center">
-          <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full">
-            <div className="max-w-md" data-testid="hero-stage-1">
-              <span className="font-mono-accent text-taxi text-xs">{th.stage1.tag}</span>
-              <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-                {th.stage1.title[0]}<br />{th.stage1.title[1]}
-              </h2>
-              <p className="mt-4 text-white/80 text-base leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                {th.stage1.desc}
-              </p>
             </div>
           </div>
         </motion.div>
