@@ -43,20 +43,21 @@ function CameraRig({ getProgress, cinematic }) {
   return null;
 }
 
-function IdleCar({ cinematic, getProgress }) {
+function IdleCar({ cinematic, getProgress, small }) {
   const ref = useRef();
   useFrame(({ clock }) => {
     if (!ref.current) return;
     const t = clock.getElapsedTime();
     if (!cinematic) {
-      ref.current.rotation.y = t * 0.25;
+      ref.current.rotation.y = t * 0.18;
     } else {
       const p = getProgress();
       ref.current.rotation.y = p < 0.05 ? Math.sin(t * 0.3) * 0.08 : THREE.MathUtils.lerp(ref.current.rotation.y, 0, 0.05);
     }
   });
+  const s = small ? 0.85 : 1;
   return (
-    <group ref={ref}>
+    <group ref={ref} scale={[s, s, s]}>
       <CobaltModel />
     </group>
   );
@@ -115,13 +116,13 @@ function Road() {
   );
 }
 
-export default function CinematicScene({ getProgress, cinematic = true }) {
+export default function CinematicScene({ getProgress, cinematic = true, small = false }) {
   return (
     <Canvas
       dpr={cinematic ? [1, 2] : [1, 1.5]}
-      shadows
-      camera={{ position: cinematic ? [5.4, 1.9, -7.6] : [6.4, 2.2, -9.4], fov: 32 }}
-      gl={{ antialias: true, alpha: true }}
+      shadows={cinematic}
+      camera={{ position: cinematic ? [5.4, 1.9, -7.6] : small ? [6.6, 2.2, -9.6] : [6.4, 2.2, -9.4], fov: small ? 34 : 32 }}
+      gl={{ antialias: !small, alpha: true }}
       style={{ background: "transparent" }}
     >
       <ambientLight intensity={0.35} />
@@ -134,8 +135,8 @@ export default function CinematicScene({ getProgress, cinematic = true }) {
       <Suspense fallback={null}>
         <CityBackdrop />
         <Road />
-        <IdleCar cinematic={cinematic} getProgress={getProgress} />
-        <ContactShadows position={[0, 0.01, 0]} opacity={0.6} scale={12} blur={2.2} far={4} color="#000000" />
+        <IdleCar cinematic={cinematic} getProgress={getProgress} small={small} />
+        <ContactShadows position={[0, 0.01, 0]} opacity={cinematic ? 0.6 : 0.45} scale={12} blur={cinematic ? 2.2 : 1.6} far={4} color="#000000" />
         <Environment preset="city" />
       </Suspense>
 

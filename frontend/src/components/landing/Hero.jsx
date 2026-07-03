@@ -144,13 +144,17 @@ export default function Hero() {
   const th = useT().hero;
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
+  const [isSmall, setIsSmall] = useState(() => window.innerWidth < 768);
   const [webgl] = useState(hasWebGL);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const progressRef = useRef(0);
 
   useEffect(() => {
     const unsub = scrollYProgress.on("change", (v) => (progressRef.current = v));
-    const onResize = () => setIsMobile(window.innerWidth < 1024);
+    const onResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+      setIsSmall(window.innerWidth < 768);
+    };
     window.addEventListener("resize", onResize);
     return () => {
       unsub();
@@ -159,6 +163,16 @@ export default function Hero() {
   }, [scrollYProgress]);
 
   const cinematic = !isMobile && webgl;
+
+  const [sceneReady, setSceneReady] = useState(false);
+  useEffect(() => {
+    if (cinematic) {
+      setSceneReady(true);
+      return;
+    }
+    const id = setTimeout(() => setSceneReady(true), 700);
+    return () => clearTimeout(id);
+  }, [cinematic]);
 
   const o0 = useTransform(scrollYProgress, [0, 0.16, 0.28], [1, 1, 0]);
   const ev0 = useTransform(o0, (v) => (v > 0.4 ? "auto" : "none"));
@@ -183,15 +197,15 @@ export default function Hero() {
           <HeroContent goForm={goForm} />
 
           <div className="relative mt-8 -mx-5 md:mx-0 h-[300px] sm:h-[360px] border-y md:border border-white/10 bg-[#070707]" data-testid="hero-3d-canvas">
-            {webgl ? (
+            {webgl && sceneReady ? (
               <SceneErrorBoundary>
                 <Suspense fallback={null}>
-                  <CinematicScene getProgress={() => 0} cinematic={false} />
+                  <CinematicScene getProgress={() => 0} cinematic={false} small={isSmall} />
                 </Suspense>
                 <SceneLoader />
               </SceneErrorBoundary>
             ) : (
-              <img src="/cobalt-taxi.jpg" alt="999 Taxi — Chevrolet Cobalt" className="w-full h-full object-cover" data-testid="hero-image-fallback" />
+              <img src="/cobalt-taxi.jpg" alt="999 Taxi — Chevrolet Cobalt" className="w-full h-full object-cover opacity-80" data-testid={webgl ? "hero-3d-placeholder" : "hero-image-fallback"} />
             )}
           </div>
 
