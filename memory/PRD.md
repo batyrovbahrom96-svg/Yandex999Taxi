@@ -57,6 +57,14 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Google Maps embed pinned to Qorasuv ko'chasi 39, Yashnobod (z=16); phone labeled "Call-markaz" +998 78 113 99 91 (user wrote "+9989 (78)..." — normalized to valid UZ format)
 - Self-tested via screenshot: address/map/phone verified in office section
 
+## Implemented (2026-06) — Iteration 7 (pre-publish pass)
+- FULL UZ/RU bilingual: /src/lib/i18n.js (translations dict + LangProvider/useT/useLang), toggle in nav (desktop + mobile, testids lang-toggle-uz/ru), localStorage 'lang999', html lang attr; ALL 17 components consume useT()
+- Official partnership (user confirmed documented): hero badge "YANDEX TAXI RASMIY HAMKORI"/"ОФИЦИАЛЬНЫЙ ПАРТНЁР ЯНДЕКС ТАКСИ", FAQ #6 = yes-official, footer legal updated
+- "Call-markaz (09:00–21:00)" labels everywhere; real photo block (real-photo-block, /cobalt-taxi.jpg) in Trust; privacy note under lead form (leadform-privacy); mobile sticky CTA safe-area-inset-bottom
+- Sentry (@sentry/react) conditional init via REACT_APP_SENTRY_DSN (empty in .env → no-op); /src/lib/sentry.js; USER MUST PROVIDE DSN to activate
+- Testing: iteration_7.json — 100% pass (both languages full-page, persistence, form flows, mobile); build exit 0
+- GOTCHA: lang-toggle testids exist twice in DOM (desktop nav + mobile) — tests must pick visible instance
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
