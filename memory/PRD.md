@@ -78,6 +78,9 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Hardening: popup-blocked fallback in LeadForm (window.open null → window.location.href = t.me url) so no lead is lost
 - TESTING TIP for future agents: use JS-based interactions (window.open override, native input setter + input event, element.click()) — Playwright fill/click stalls on Lenis + popup navigation
 
+## Implemented (2026-07) — Iteration 11 (production domain check)
+- User reported https://999taxi.com "doesn't work". Verified twice (self + testing agent iteration_9.json, 5/5 PASS): production is FULLY FUNCTIONAL — DNS via Cloudflare, HTTPS 200, hero/3D/GLB/video/CTAs/lead form/mobile all green, www redirects to apex. Root cause: client-side DNS propagation / ISP or browser cache at the user's location. No code changes.
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
