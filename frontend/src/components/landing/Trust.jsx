@@ -1,11 +1,23 @@
+import { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Phone, Send, Clock, MapPin, Camera } from "lucide-react";
+import { Phone, Send, Clock, MapPin, Camera, Volume2, VolumeX } from "lucide-react";
 import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
 
 export default function Trust() {
   const t = useT();
   const tr = t.trust;
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+
+  const toggleMute = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = !v.muted;
+    setMuted(v.muted);
+    if (v.paused) v.play().catch(() => {});
+  };
+
   const blocks = [
     { icon: Phone, label: tr.callcenter, value: PHONE_DISPLAY, href: `tel:${PHONE}` },
     { icon: Send, label: tr.telegram, value: TELEGRAM_HANDLE, href: TELEGRAM_URL },
@@ -79,6 +91,7 @@ export default function Trust() {
           className="mt-10 relative border border-white/10 overflow-hidden group"
         >
           <video
+            ref={videoRef}
             src="/cobalt-video.mp4"
             poster="/cobalt-taxi.jpg"
             autoPlay
@@ -89,11 +102,19 @@ export default function Trust() {
             data-testid="brand-video"
           />
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+          <button
+            onClick={toggleMute}
+            data-testid="video-mute-toggle"
+            aria-label={muted ? "Unmute" : "Mute"}
+            className="absolute bottom-4 right-4 w-11 h-11 bg-black/70 backdrop-blur border border-taxi/50 text-taxi flex items-center justify-center hover:bg-taxi hover:text-black transition-colors duration-300"
+          >
+            {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+          </button>
           <div className="absolute top-4 left-4 bg-taxi text-black font-mono-accent text-[10px] px-3 py-1.5 flex items-center gap-2">
             <Camera size={12} />
             {tr.photoTag}
           </div>
-          <div className="absolute bottom-4 left-4 right-4 text-white font-bold text-sm md:text-base">{tr.photoCaption}</div>
+          <div className="absolute bottom-4 left-4 right-16 text-white font-bold text-sm md:text-base">{tr.photoCaption}</div>
         </motion.div>
       </div>
     </section>

@@ -71,6 +71,7 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 
 ## Implemented (2026-06) — Iteration 9
 - Replaced the Trust-section Cobalt photo with user's uploaded promo VIDEO (/public/cobalt-video.mp4, 2.5MB H.264, autoplay/muted/loop/playsInline, poster=/cobalt-taxi.jpg, testid brand-video); tag label now "VIDEO"/"ВИДЕО". NOTE: headless Playwright Chromium can't decode H.264 (readyState 0) — NOT a bug, real browsers play it; poster shows as fallback.
+- Mute/unmute button on video (testid video-mute-toggle, bottom-right, VolumeX/Volume2 icons); play() promise wrapped in .catch() to avoid unhandled rejection in codec-less browsers. Self-tested: toggle flips video.muted, no error overlay.
 
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
