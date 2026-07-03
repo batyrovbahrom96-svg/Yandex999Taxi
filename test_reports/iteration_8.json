@@ -1,0 +1,42 @@
+{
+  "summary": "Ran the 6 targeted checks for 999 Taxi landing (UZ/RU, no backend). ALL 6 PASS. Lead form submit correctly opens https://t.me/t_boxodir?text=... via window.open with prefilled Uzbek/Russian message including name+phone; success 'Rahmat!' renders and reset clears fields on both desktop 1440x800 and mobile 390x844. All Telegram CTAs (nav, final, sticky) target t.me/t_boxodir; call CTAs use tel:+998781139991. Mobile sticky bottom bar does NOT cover leadform-submit (elementFromPoint at submit center returned the button itself). Full-page scroll top→bottom at both viewports: footer renders, zero console errors, FAQ item 0 aria-expanded toggles true→false. Mobile scrollWidth == innerWidth (390) at 3 scroll depths — no horizontal overflow. RU toggle: after localStorage lang999='ru' and full navigation reload, hero renders '999 Taxi — начните работать в Яндекс Go быстрее.' (Cyrillic).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "observations_non_blocking": [
+    "On initial mobile page load, a spurious window.open(undefined) call was captured in the override array (produces a single null entry before any user click). The subsequent legitimate submit call correctly pushes the t.me/t_boxodir?text=... URL, so lead flow is unaffected. Likely source: an anchor/effect firing on mount or a Lenis-related noop. Non-blocking but worth a quick audit of any programmatic window.open / <a target=_blank> in header/sticky mount effects.",
+    "Playwright's built-in page.fill/click hangs after submit because window.open(...,'_blank') triggers a 'wait for scheduled navigations'. Tests worked reliably using JS click + native input setter — no product change needed."
+  ],
+  "verified_data": {
+    "desktop_popup_url_sample": "https://t.me/t_boxodir?text=Salom!%20999%20Taxi%20saytidan%20ariza%3A%0AIsm%3A%20Test%20Akmal%0ATelefon%3A%20%2B998901112233%0AAvtomobil%3A%20Bor%0AGuvohnoma%3A%20Bor",
+    "mobile_popup_url_sample": "https://t.me/t_boxodir?text=Salom!%20999%20Taxi%20saytidan%20ariza%3A%0AIsm%3A%20Mobile%20Test%0ATelefon%3A%20%2B998907776655%0AAvtomobil%3A%20Bor%0AGuvohnoma%3A%20Bor",
+    "cta_hrefs": {
+      "nav-cta-telegram": "https://t.me/t_boxodir",
+      "final-cta-telegram": "https://t.me/t_boxodir",
+      "nav-cta-call": "tel:+998781139991",
+      "sticky-cta-telegram": "https://t.me/t_boxodir",
+      "sticky-cta-call": "tel:+998781139991"
+    },
+    "mobile_overflow_depths": [{"scrollTop":0,"sw":390,"iw":390},{"scrollTop":9313,"sw":390,"iw":390},{"scrollTop":17695,"sw":390,"iw":390}],
+    "ru_hero_after_reload": "999 Taxi — начните работать в Яндекс Go быстрее.",
+    "faq0_aria_expanded_toggle": "true -> false",
+    "desktop_console_errors": 0,
+    "mobile_console_errors": 0
+  },
+  "test_report_links": [],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "LeadForm.jsx submit uses window.open(url,'_blank') — good, but consider adding a small guard/return check when the popup is blocked (window.open returns null in strict popup-blocked contexts). Currently setSent(true) fires regardless, which is UX-acceptable given the intent-to-message pattern.",
+    "Investigate spurious window.open(undefined) call happening on mobile page load (see observations)."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend-only)", "frontend": "100% (6/6 targeted checks)"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "All 6 acceptance checks passed. If retesting, prefer JS-based interactions: (a) override window.open before form submit to capture popup URL, (b) set input values via the React setter (Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value').set + dispatch 'input' event) and click via element.click() — Playwright's native fill/click stalls waiting on Lenis scroll + popup navigation. For RU reload persistence, use localStorage.setItem('lang999','ru') + page.goto() (page.reload hung once in headless).",
+  "rca of the issue": "N/A — no issues to root-cause."
+}
