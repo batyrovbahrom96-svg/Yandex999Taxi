@@ -1,15 +1,10 @@
 import { Phone, Send } from "lucide-react";
 import { Logo } from "@/components/landing/Logo";
 import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL } from "@/lib/brand";
-
-const links = [
-  { label: "Bosh sahifa", id: "hero" },
-  { label: "Xizmatlar", id: "xizmatlar" },
-  { label: "Savollar", id: "savollar" },
-  { label: "Aloqa", id: "aloqa" },
-];
+import { useT } from "@/lib/i18n";
 
 export default function Footer() {
+  const t = useT().footer;
   const go = (e, id) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -21,22 +16,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
             <Logo size="lg" />
-            <p className="mt-5 text-white/55 text-sm leading-relaxed max-w-xs" data-testid="footer-copy">
-              999 Taxi — haydovchilar uchun ulanish va qo‘llab-quvvatlash xizmati.
-            </p>
+            <p className="mt-5 text-white/55 text-sm leading-relaxed max-w-xs" data-testid="footer-copy">{t.copy}</p>
           </div>
 
           <div>
-            <div className="font-mono-accent text-white/40 text-[10px] mb-4">SAHIFALAR</div>
+            <div className="font-mono-accent text-white/40 text-[10px] mb-4">{t.pages}</div>
             <nav className="flex flex-col gap-3">
-              {links.map((l) => (
-                <a
-                  key={l.id}
-                  href={`#${l.id}`}
-                  onClick={(e) => go(e, l.id)}
-                  data-testid={`footer-link-${l.id}`}
-                  className="text-white/70 hover:text-taxi text-sm font-bold transition-colors w-fit"
-                >
+              {t.links.map((l) => (
+                <a key={l.id} href={`#${l.id}`} onClick={(e) => go(e, l.id)} data-testid={`footer-link-${l.id}`} className="text-white/70 hover:text-taxi text-sm font-bold transition-colors w-fit">
                   {l.label}
                 </a>
               ))}
@@ -44,7 +31,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <div className="font-mono-accent text-white/40 text-[10px] mb-4">ALOQA</div>
+            <div className="font-mono-accent text-white/40 text-[10px] mb-4">{t.contact}</div>
             <div className="flex flex-col gap-3">
               <a href={`tel:${PHONE}`} data-testid="footer-phone" className="inline-flex items-center gap-2 text-white/70 hover:text-taxi text-sm font-bold transition-colors w-fit">
                 <Phone size={14} className="text-taxi" /> {PHONE_DISPLAY}
@@ -52,20 +39,16 @@ export default function Footer() {
               <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="footer-telegram" className="inline-flex items-center gap-2 text-white/70 hover:text-taxi text-sm font-bold transition-colors w-fit">
                 <Send size={14} className="text-taxi" /> {TELEGRAM_HANDLE}
               </a>
-              <span className="text-white/50 text-sm">Yashnobod tumani, Qorasuv ko‘chasi, 39-uy, Toshkent, 100014</span>
-              <span className="text-white/50 text-sm">Har kuni 09:00–21:00</span>
+              <span className="text-white/50 text-sm">{t.address}</span>
+              <span className="text-white/50 text-sm">{t.hours}</span>
             </div>
           </div>
         </div>
 
         <div className="mt-12 pt-6 border-t border-white/10">
-          <p className="text-white/35 text-xs leading-relaxed max-w-3xl" data-testid="footer-legal-note">
-            999 Taxi mustaqil xizmat ko‘rsatish va aloqa markazi sifatida faoliyat
-            yuritadi. Rasmiy hamkorlik maqomi faqat tasdiqlangan hujjatlar asosida
-            ko‘rsatilishi kerak.
-          </p>
+          <p className="text-white/35 text-xs leading-relaxed max-w-3xl" data-testid="footer-legal-note">{t.legal}</p>
           <p className="mt-4 text-white/30 text-xs">
-            © {new Date().getFullYear()} 999 Taxi. Barcha huquqlar himoyalangan.
+            © {new Date().getFullYear()} 999 Taxi. {t.rights}
             <span className="mx-2 text-white/20">|</span>
             <span data-testid="footer-3d-credit">3D model credit: Q.SARDOR / CC BY 4.0</span>
           </p>

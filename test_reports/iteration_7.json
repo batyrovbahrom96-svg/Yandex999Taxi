@@ -1,0 +1,39 @@
+{
+  "summary": "Frontend-only regression pass for i18n (UZ/RU), Yandex partnership wording, call-center hours, real photo block, privacy note, Sentry no-op, mobile CTA safe-area. All 12 acceptance points verified.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "Trust/Office/LeadForm contact labels", "issues": ["Call-center label rendered UPPERCASE via CSS text-transform (e.g., 'CALL-MARKAZ (09:00-21:00)'). Content is correct in i18n.js source; visual is uppercased. Not a bug, just noting for reviewer expecting mixed-case."]}
+    ]
+  },
+  "test_report_links": [],
+  "verified_checks": [
+    "Default load renders UZ; html.lang=uz; localStorage lang999=uz",
+    "Hero badge 'YANDEX TAXI RASMIY HAMKORI' present in UZ",
+    "Hero title 'Yandex Go tezroq ish boshlang' present in UZ",
+    "Real photo block visible, /cobalt-taxi.jpg naturalWidth=1280 loaded",
+    "leadform-privacy present in both languages",
+    "trust-block-0 shows 'CALL-MARKAZ (09:00-21:00)' + phone (uppercased visually)",
+    "RU toggle switches entire page instantly: nav 'Главная', hero 'начните работать в Яндекс Go', hero badge 'ОФИЦИАЛЬНЫЙ ПАРТНЁР ЯНДЕКС ТАКСИ', services 'Наши услуги', FAQ 'Часто задаваемые вопросы', testimonials 'Азиз Каримов', footer legal 'официальный партнёр Яндекс Такси', html.lang=ru",
+    "Persistence: reload after RU keeps RU (localStorage lang999=ru); switch back to UZ works",
+    "FAQ item 6 RU expanded shows 'официального партнёрства'; UZ shows 'rasmiy hamkorlik asosida' (screenshot confirmed)",
+    "RU LeadForm: labels 'Имя *', 'Номер телефона *', options 'Есть/Нет', privacy note visible; submit -> window.open t.me URL containing 'Заявка с сайта 999 Taxi' + 'Имя'/'Телефон'; success 'Спасибо!' shown; 'again' button clears fields",
+    "UZ LeadForm regression: success 'Rahmat!' shown after submit (screenshot confirmed with UZ contact labels)",
+    "Mobile 390x844: two RU toggle instances found (desktop hidden, mobile compact visible next to hamburger), click switches to RU, sticky bar shows 'Звонок / Telegram / Оставить заявку', no horizontal overflow (scrollWidth==390)",
+    "0 console errors and 0 Sentry-related errors across desktop and mobile runs (DSN empty => silent no-op confirmed)"
+  ],
+  "action_items": [],
+  "critical_code_review_comments": [
+    "Minor: Call-center labels defined mixed-case in i18n ('Call-markaz (09:00–21:00)') but displayed uppercased by CSS. Acceptance test used case-insensitive/uppercase substring check; verify design intent matches spec.",
+    "LangProvider persists to localStorage on every render via useEffect deps [lang] — fine, but consider not writing on initial mount if value equals stored one (micro-optimization).",
+    "Two lang-toggle-uz/ru instances exist (desktop + mobile). Both use identical testids; tests must select the visible one via .first-of-visible pattern."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "App is pure frontend (no backend). Public URL https://yandex-ride-preview.preview.emergentagent.com. Lang toggles have two DOM instances (desktop nav + mobile compact) with same data-testid; use .locator(...).first() with no_wait_after=True to avoid navigation-wait timeouts. Lenis smooth scroll present; use scrollIntoView + 1.5-3s wait. window.open is used for Telegram deep links – intercept via init script."
+}

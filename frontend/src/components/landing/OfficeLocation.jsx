@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { MapPin, Clock, Phone, Send, Navigation2 } from "lucide-react";
-import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL, WORK_HOURS, LOCATION } from "@/lib/brand";
+import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL } from "@/lib/brand";
+import { useT } from "@/lib/i18n";
 
 const MAPS_QUERY = "Qorasuv ko'chasi 39, Yashnobod tumani, Tashkent 100014, Uzbekistan";
 
 export default function OfficeLocation() {
+  const t = useT().office;
   return (
     <section id="manzil" data-testid="office-location-section" className="relative py-24 md:py-32 bg-[#050505]">
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
@@ -15,14 +17,11 @@ export default function OfficeLocation() {
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.6 }}
         >
-          <span className="font-mono-accent text-taxi text-xs">09 / OFIS MANZILI</span>
+          <span className="font-mono-accent text-taxi text-xs">{t.label}</span>
           <h2 className="font-display text-white text-4xl sm:text-5xl lg:text-6xl tracking-tighter mt-4">
-            Ro‘yxatdan o‘tish<br />uchun ofisimizga keling
+            {t.title[0]}<br />{t.title[1]}
           </h2>
-          <p className="mt-4 text-white/60 text-base leading-relaxed max-w-lg">
-            Hujjatlaringiz bilan ofisimizga tashrif buyuring — ulanish jarayonini
-            joyning o‘zida, birgalikda yakunlaymiz.
-          </p>
+          <p className="mt-4 text-white/60 text-base leading-relaxed max-w-lg">{t.desc}</p>
 
           <div className="mt-8 space-y-4">
             <div className="flex items-center gap-4" data-testid="office-address">
@@ -30,8 +29,8 @@ export default function OfficeLocation() {
                 <MapPin size={17} />
               </span>
               <div>
-                <div className="font-mono-accent text-white/40 text-[10px]">Manzil</div>
-                <div className="text-white font-bold">{LOCATION}</div>
+                <div className="font-mono-accent text-white/40 text-[10px]">{t.addressLabel}</div>
+                <div className="text-white font-bold">{t.address}</div>
               </div>
             </div>
             <div className="flex items-center gap-4" data-testid="office-hours">
@@ -39,8 +38,8 @@ export default function OfficeLocation() {
                 <Clock size={17} />
               </span>
               <div>
-                <div className="font-mono-accent text-white/40 text-[10px]">Ish vaqti</div>
-                <div className="text-white font-bold">{WORK_HOURS}</div>
+                <div className="font-mono-accent text-white/40 text-[10px]">{t.hoursLabel}</div>
+                <div className="text-white font-bold">{t.hours}</div>
               </div>
             </div>
             <div className="flex items-center gap-4" data-testid="office-phone">
@@ -48,7 +47,7 @@ export default function OfficeLocation() {
                 <Phone size={17} />
               </span>
               <div>
-                <div className="font-mono-accent text-white/40 text-[10px]">Call-markaz</div>
+                <div className="font-mono-accent text-white/40 text-[10px]">{t.phoneLabel}</div>
                 <a href={`tel:${PHONE}`} className="text-white font-bold hover:text-taxi transition-colors">{PHONE_DISPLAY}</a>
               </div>
             </div>
@@ -63,15 +62,9 @@ export default function OfficeLocation() {
               className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-7 py-4 hover:bg-[#ffe04d] transition-colors duration-300"
             >
               <Navigation2 size={17} />
-              Yo‘nalishni ochish
+              {t.ctaDirections}
             </a>
-            <a
-              href={TELEGRAM_URL}
-              target="_blank"
-              rel="noreferrer"
-              data-testid="office-telegram-cta"
-              className="inline-flex items-center gap-3 border border-white/25 text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300"
-            >
+            <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="office-telegram-cta" className="inline-flex items-center gap-3 border border-white/25 text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
               <Send size={16} />
               {TELEGRAM_HANDLE}
             </a>
@@ -87,7 +80,7 @@ export default function OfficeLocation() {
           data-testid="office-map"
         >
           <iframe
-            title="999 Taxi ofis manzili"
+            title={t.mapTitle}
             src={`https://www.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&z=16&output=embed`}
             className="w-full h-[380px] md:h-[460px] grayscale-[35%] contrast-[1.05]"
             loading="lazy"
@@ -96,7 +89,7 @@ export default function OfficeLocation() {
           />
           <div className="absolute top-4 left-4 bg-black/85 backdrop-blur px-4 py-2.5 flex items-center gap-2 border border-taxi/40">
             <MapPin size={14} className="text-taxi" />
-            <span className="text-white text-xs font-bold">999 Taxi — Qorasuv ko‘chasi, 39</span>
+            <span className="text-white text-xs font-bold">{t.mapBadge}</span>
           </div>
         </motion.div>
       </div>

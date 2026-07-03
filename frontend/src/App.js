@@ -3,6 +3,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lenis from "lenis";
 import Landing from "@/pages/Landing";
+import { LangProvider } from "@/lib/i18n";
 
 function App() {
   useEffect(() => {
@@ -24,11 +25,13 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-        </Routes>
-      </BrowserRouter>
+      <LangProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+          </Routes>
+        </BrowserRouter>
+      </LangProvider>
     </div>
   );
 }

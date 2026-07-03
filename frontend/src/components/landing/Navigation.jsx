@@ -2,17 +2,30 @@ import { useState, useEffect } from "react";
 import { Menu, X, Phone, Send } from "lucide-react";
 import { Logo } from "@/components/landing/Logo";
 import { PHONE, TELEGRAM_URL } from "@/lib/brand";
+import { useLang } from "@/lib/i18n";
 
-const links = [
-  { label: "Bosh sahifa", id: "hero" },
-  { label: "Xizmatlar", id: "xizmatlar" },
-  { label: "Afzalliklar", id: "afzalliklar" },
-  { label: "Qanday ishlaydi", id: "qanday" },
-  { label: "Savollar", id: "savollar" },
-  { label: "Aloqa", id: "aloqa" },
-];
+function LangToggle({ compact = false }) {
+  const { lang, setLang } = useLang();
+  return (
+    <div className={`flex items-center border border-white/20 ${compact ? "" : "mr-1"}`} data-testid="lang-toggle">
+      {["uz", "ru"].map((l) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          data-testid={`lang-toggle-${l}`}
+          className={`px-3 py-2 text-xs font-extrabold uppercase transition-colors ${
+            lang === l ? "bg-taxi text-black" : "text-white/60 hover:text-white"
+          }`}
+        >
+          {l}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 export default function Navigation() {
+  const { t } = useLang();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -41,8 +54,8 @@ export default function Navigation() {
           <Logo />
         </a>
 
-        <nav className="hidden lg:flex items-center gap-8">
-          {links.map((l) => (
+        <nav className="hidden lg:flex items-center gap-7">
+          {t.nav.links.map((l) => (
             <a
               key={l.id}
               href={`#${l.id}`}
@@ -57,13 +70,14 @@ export default function Navigation() {
         </nav>
 
         <div className="hidden lg:flex items-center gap-3">
+          <LangToggle />
           <a
             href={`tel:${PHONE}`}
             data-testid="nav-cta-call"
             className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-bold px-5 py-3 hover:border-taxi hover:text-taxi transition-colors"
           >
             <Phone size={15} />
-            Qo‘ng‘iroq qilish
+            {t.nav.ctaCall}
           </a>
           <a
             href={TELEGRAM_URL}
@@ -73,24 +87,22 @@ export default function Navigation() {
             className="inline-flex items-center gap-2 bg-taxi text-black font-bold text-sm px-5 py-3 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300"
           >
             <Send size={15} />
-            Telegram orqali bog‘lanish
+            {t.nav.ctaTelegram}
           </a>
         </div>
 
-        <button
-          data-testid="nav-mobile-toggle"
-          className="lg:hidden text-white"
-          onClick={() => setOpen((s) => !s)}
-          aria-label="Menyu"
-        >
-          {open ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        <div className="lg:hidden flex items-center gap-3">
+          <LangToggle compact />
+          <button data-testid="nav-mobile-toggle" className="text-white" onClick={() => setOpen((s) => !s)} aria-label="Menu">
+            {open ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
       </div>
 
       {open && (
         <div data-testid="mobile-menu" className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/10 px-6 py-6">
           <nav className="flex flex-col gap-4">
-            {links.map((l) => (
+            {t.nav.links.map((l) => (
               <a
                 key={l.id}
                 href={`#${l.id}`}
@@ -101,21 +113,11 @@ export default function Navigation() {
                 {l.label}
               </a>
             ))}
-            <a
-              href={TELEGRAM_URL}
-              target="_blank"
-              rel="noreferrer"
-              data-testid="mobile-nav-cta-telegram"
-              className="bg-taxi text-black font-bold text-sm px-6 py-3 text-center mt-2"
-            >
-              Telegram orqali bog‘lanish
+            <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="mobile-nav-cta-telegram" className="bg-taxi text-black font-bold text-sm px-6 py-3 text-center mt-2">
+              {t.nav.ctaTelegram}
             </a>
-            <a
-              href={`tel:${PHONE}`}
-              data-testid="mobile-nav-cta-call"
-              className="border border-white/20 text-white font-bold text-sm px-6 py-3 text-center"
-            >
-              Qo‘ng‘iroq qilish
+            <a href={`tel:${PHONE}`} data-testid="mobile-nav-cta-call" className="border border-white/20 text-white font-bold text-sm px-6 py-3 text-center">
+              {t.nav.ctaCall}
             </a>
           </nav>
         </div>

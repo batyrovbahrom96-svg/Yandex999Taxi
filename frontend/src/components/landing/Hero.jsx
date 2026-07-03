@@ -3,15 +3,11 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useProgress } from "@react-three/drei";
 import { Send, Phone, FileText, Zap, LifeBuoy, MessageCircle, MapPin, ChevronDown } from "lucide-react";
 import { PHONE, TELEGRAM_URL } from "@/lib/brand";
+import { useT } from "@/lib/i18n";
 
 const CinematicScene = lazy(() => import("@/components/landing/CinematicScene"));
 
-const badges = [
-  { icon: Zap, label: "Tezkor ulanish" },
-  { icon: LifeBuoy, label: "Haydovchilar uchun yordam" },
-  { icon: MessageCircle, label: "Telegram orqali aloqa" },
-  { icon: MapPin, label: "Toshkent bo‘yicha xizmat" },
-];
+const badgeIcons = [Zap, LifeBuoy, MessageCircle, MapPin];
 
 class SceneErrorBoundary extends Component {
   state = { failed: false };
@@ -35,6 +31,7 @@ class SceneErrorBoundary extends Component {
 
 function SceneLoader() {
   const { progress } = useProgress();
+  const t = useT().hero;
   const [done, setDone] = useState(false);
   useEffect(() => {
     if (progress >= 100) {
@@ -49,7 +46,7 @@ function SceneLoader() {
       <div className="mt-4 w-52 h-[3px] bg-white/10 overflow-hidden">
         <div className="h-full bg-taxi transition-all duration-300" style={{ width: `${progress}%` }} />
       </div>
-      <div className="mt-3 font-mono-accent text-white/50 text-[10px]">3D MODEL YUKLANMOQDA</div>
+      <div className="mt-3 font-mono-accent text-white/50 text-[10px]">{t.loader}</div>
     </div>
   );
 }
@@ -64,6 +61,7 @@ function hasWebGL() {
 }
 
 function HeroContent({ goForm }) {
+  const t = useT().hero;
   return (
     <>
       <motion.div
@@ -74,7 +72,7 @@ function HeroContent({ goForm }) {
         data-testid="hero-badge"
       >
         <span className="w-2 h-2 rounded-full bg-taxi animate-pulse-glow" />
-        <span className="font-mono-accent text-[10px] md:text-xs text-white/80">HAYDOVCHILAR UCHUN ULANISH XIZMATI</span>
+        <span className="font-mono-accent text-[10px] md:text-xs text-white/80">{t.badge}</span>
       </motion.div>
 
       <motion.h1
@@ -84,9 +82,9 @@ function HeroContent({ goForm }) {
         className="font-display text-white text-4xl sm:text-5xl lg:text-5xl xl:text-6xl 2xl:text-[4.4rem] tracking-tighter drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]"
         data-testid="hero-title"
       >
-        <span className="text-taxi">999 Taxi</span> bilan<br />
-        Yandex Go‘da tezroq<br />
-        ish boshlang<span className="text-redb">.</span>
+        <span className="text-taxi">999 Taxi</span> {t.titleLines[0]}<br />
+        {t.titleLines[1]}<br />
+        {t.titleLines[2]}<span className="text-redb">.</span>
       </motion.h1>
 
       <motion.p
@@ -96,7 +94,7 @@ function HeroContent({ goForm }) {
         className="mt-5 text-white/90 text-base md:text-lg max-w-xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]"
         data-testid="hero-description"
       >
-        Yandex Go orqali ishlashni xohlagan haydovchilar uchun ulanish, yordam va qo‘llab-quvvatlash xizmati.
+        {t.desc}
       </motion.p>
 
       <motion.div
@@ -106,13 +104,13 @@ function HeroContent({ goForm }) {
         className="mt-7 flex flex-wrap items-center gap-3"
       >
         <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-cta-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-7 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
-          <Send size={18} /> Telegram orqali bog‘lanish
+          <Send size={18} /> {t.ctaTelegram}
         </a>
         <a href="#aloqa" onClick={goForm} data-testid="hero-cta-form" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
-          <FileText size={17} /> Ariza qoldirish
+          <FileText size={17} /> {t.ctaForm}
         </a>
         <a href={`tel:${PHONE}`} data-testid="hero-cta-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
-          <Phone size={17} /> Qo‘ng‘iroq qilish
+          <Phone size={17} /> {t.ctaCall}
         </a>
       </motion.div>
     </>
@@ -120,6 +118,7 @@ function HeroContent({ goForm }) {
 }
 
 function TrustBadges() {
+  const t = useT().hero;
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -128,17 +127,21 @@ function TrustBadges() {
       className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl"
       data-testid="hero-trust-badges"
     >
-      {badges.map((b, i) => (
-        <div key={i} className="border border-white/10 bg-black/60 backdrop-blur-md p-3">
-          <b.icon size={15} className="text-taxi mb-1.5" />
-          <div className="text-white/85 text-xs font-bold leading-snug">{b.label}</div>
-        </div>
-      ))}
+      {t.badges.map((label, i) => {
+        const Icon = badgeIcons[i];
+        return (
+          <div key={i} className="border border-white/10 bg-black/60 backdrop-blur-md p-3">
+            <Icon size={15} className="text-taxi mb-1.5" />
+            <div className="text-white/85 text-xs font-bold leading-snug">{label}</div>
+          </div>
+        );
+      })}
     </motion.div>
   );
 }
 
 export default function Hero() {
+  const th = useT().hero;
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
   const [webgl] = useState(hasWebGL);
@@ -234,12 +237,12 @@ export default function Hero() {
         <motion.div style={{ opacity: o1 }} className="absolute inset-0 z-10 pointer-events-none flex items-center">
           <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full">
             <div className="max-w-md" data-testid="hero-stage-1">
-              <span className="font-mono-accent text-taxi text-xs">CHEVROLET COBALT</span>
+              <span className="font-mono-accent text-taxi text-xs">{th.stage1.tag}</span>
               <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-                Toshkent yo‘llari<br />uchun ideal
+                {th.stage1.title[0]}<br />{th.stage1.title[1]}
               </h2>
               <p className="mt-4 text-white/80 text-base leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                Keng salon, tejamkor dvigatel va ishonchli yurish — Cobalt taksi ishi uchun eng qulay tanlov.
+                {th.stage1.desc}
               </p>
             </div>
           </div>
@@ -249,12 +252,12 @@ export default function Hero() {
         <motion.div style={{ opacity: o2 }} className="absolute inset-0 z-10 pointer-events-none flex items-center justify-end">
           <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full flex justify-end">
             <div className="max-w-md text-right" data-testid="hero-stage-2">
-              <span className="font-mono-accent text-taxi text-xs">HAR BIR DETAL JOYIDA</span>
+              <span className="font-mono-accent text-taxi text-xs">{th.stage2.tag}</span>
               <h2 className="font-display text-white text-4xl lg:text-6xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-                TAXI belgisi.<br />999 brendi.
+                {th.stage2.title[0]}<br />{th.stage2.title[1]}
               </h2>
               <p className="mt-4 text-white/80 text-base leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-                Yorqin chiroqlar, brendlangan eshiklar va professional ko‘rinish — mijoz ishonchini oshiradi.
+                {th.stage2.desc}
               </p>
             </div>
           </div>
@@ -263,16 +266,16 @@ export default function Hero() {
         {/* Stage 3 — final CTA */}
         <motion.div style={{ opacity: o3, pointerEvents: ev3 }} className="absolute inset-0 z-10 flex items-center justify-center">
           <div className="text-center px-5" data-testid="hero-stage-3">
-            <span className="font-mono-accent text-taxi text-xs">SHAHAR SIZNI KUTMOQDA</span>
+            <span className="font-mono-accent text-taxi text-xs">{th.stage3.tag}</span>
             <h2 className="font-display text-white text-4xl lg:text-7xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
-              999 Taxi bilan<br />yo‘lga chiqing
+              {th.stage3.title[0]}<br />{th.stage3.title[1]}
             </h2>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-stage3-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
-                <Send size={18} /> Telegram orqali bog‘lanish
+                <Send size={18} /> {th.ctaTelegram}
               </a>
               <a href={`tel:${PHONE}`} data-testid="hero-stage3-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
-                <Phone size={17} /> Qo‘ng‘iroq qilish
+                <Phone size={17} /> {th.ctaCall}
               </a>
             </div>
           </div>
@@ -280,7 +283,7 @@ export default function Hero() {
 
         {/* Scroll hint */}
         <motion.div style={{ opacity: hint }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none" data-testid="hero-scroll-hint">
-          <span className="font-mono-accent text-white/50 text-[10px]">PASTGA AYLANTIRING</span>
+          <span className="font-mono-accent text-white/50 text-[10px]">{th.scrollHint}</span>
           <ChevronDown size={18} className="text-taxi animate-bounce" />
         </motion.div>
       </div>

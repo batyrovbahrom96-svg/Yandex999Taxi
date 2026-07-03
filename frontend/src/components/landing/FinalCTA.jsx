@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { Send, Phone, FileText } from "lucide-react";
 import { PHONE, TELEGRAM_URL } from "@/lib/brand";
+import { useT } from "@/lib/i18n";
 
 export default function FinalCTA() {
+  const t = useT().finalCta;
   const goForm = (e) => {
     e.preventDefault();
     document.getElementById("aloqa")?.scrollIntoView({ behavior: "smooth" });
@@ -24,8 +26,8 @@ export default function FinalCTA() {
           className="font-display text-white text-4xl sm:text-5xl lg:text-7xl tracking-tighter"
           data-testid="final-cta-title"
         >
-          Bugunoq ish boshlashni<br />
-          <span className="text-taxi">xohlaysizmi?</span>
+          {t.title[0]}<br />
+          <span className="text-taxi">{t.title[1]}</span>
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -34,7 +36,7 @@ export default function FinalCTA() {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mt-5 text-white/65 text-base md:text-lg max-w-xl mx-auto"
         >
-          999 Taxi bilan bog‘laning va kerakli bosqichlarni bilib oling.
+          {t.sub}
         </motion.p>
 
         <motion.div
@@ -44,32 +46,17 @@ export default function FinalCTA() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-9 flex flex-wrap items-center justify-center gap-3"
         >
-          <a
-            href={TELEGRAM_URL}
-            target="_blank"
-            rel="noreferrer"
-            data-testid="final-cta-telegram"
-            className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300"
-          >
+          <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="final-cta-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
             <Send size={18} />
-            Telegram orqali yozish
+            {t.ctaTelegram}
           </a>
-          <a
-            href={`tel:${PHONE}`}
-            data-testid="final-cta-call"
-            className="inline-flex items-center gap-3 border border-white/25 text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300"
-          >
+          <a href={`tel:${PHONE}`} data-testid="final-cta-call" className="inline-flex items-center gap-3 border border-white/25 text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
             <Phone size={17} />
-            Qo‘ng‘iroq qilish
+            {t.ctaCall}
           </a>
-          <a
-            href="#aloqa"
-            onClick={goForm}
-            data-testid="final-cta-form"
-            className="inline-flex items-center gap-3 border border-white/25 text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300"
-          >
+          <a href="#aloqa" onClick={goForm} data-testid="final-cta-form" className="inline-flex items-center gap-3 border border-white/25 text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
             <FileText size={17} />
-            Ariza qoldirish
+            {t.ctaForm}
           </a>
         </motion.div>
       </div>
