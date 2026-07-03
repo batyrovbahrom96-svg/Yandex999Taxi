@@ -66,8 +66,8 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - GOTCHA: lang-toggle testids exist twice in DOM (desktop nav + mobile) — tests must pick visible instance
 
 ## Implemented (2026-06) — Iteration 8
-- Removed cinematic stage-1 praising caption ("Toshkent yo'llari uchun ideal" / Cobalt praise text) per user request — that scroll segment now shows only the car; o1 transform + stage1 i18n keys deleted (Hero.jsx, i18n.js). Stage-2/3 overlays kept. Self-tested via screenshot.
-- App is DEPLOYED to production: https://yandex-ride-preview.emergent.host — changes require user redeploy.
+- Removed cinematic stage-1 praising caption ("Toshkent yo'llari uchun ideal" / Cobalt praise text) per user request, then REPLACED (next request) with company-praise copy: UZ "999 TAXI — ISHONCHLI HAMKOR / Haydovchilar tanlovi — 999 Taxi / Tezkor ulanish, halol munosabat…", RU "999 TAXI — НАДЁЖНЫЙ ПАРТНЁР / Выбор водителей — 999 Taxi…" (Hero.jsx stage1 + i18n.js). Self-tested via screenshot.
+- App is DEPLOYED to production: https://yandex-ride-preview.emergent.host — changes require user redeploy. "Made with Emergent" badge is platform-injected, not in codebase (user directed to support@emergent.sh).
 
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
