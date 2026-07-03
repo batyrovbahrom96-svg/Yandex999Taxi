@@ -94,3 +94,13 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - P1: Replace Google Maps placeholder ("Tashkent") with the exact office address + pin once user provides it (OfficeLocation.jsx, MAPS_QUERY const)
 - P2: Optional backend lead storage + admin view if user later wants leads in a database
 - P2: Analytics on CTA clicks (Telegram vs call vs form) for conversion tracking
+
+## Implemented (2026-07) — Iteration 13 (mobile 3D polish, P0 complete)
+- Fixed corrupted CinematicScene.jsx (duplicate trailing lines from previous failed edit broke the file tail)
+- Mobile polish: content-first hero (text/CTAs above, 3D block below — no overlap), deferred 3D mount (700ms sceneReady gate + poster placeholder, testid hero-3d-placeholder), `small` prop on CinematicScene (<768px): car scale 0.85, camera [6.6,2.2,-9.6] fov 34, antialias off, shadows only in cinematic mode, DPR capped [1,1.5] non-cinematic
+- Verified (testing agent iteration_10.json, 100% PASS): 390/430/768px — zero overlap, zero horizontal scroll, sticky CTA doesn't cover form submit, canvas mounts ~2s; desktop 1920 cinematic 400vh intact, UZ/RU toggle OK
+
+## Backlog (updated)
+- P1: Exact office address for Google Maps pin (waiting on user)
+- P2: Yandex Metrica / Google Analytics CTA conversion tracking (NEXT UP per user: "after mobile polish, move to analytics")
+- P2: Optional backend lead storage + admin view
