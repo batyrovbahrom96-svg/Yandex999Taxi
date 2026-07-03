@@ -73,6 +73,11 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Replaced the Trust-section Cobalt photo with user's uploaded promo VIDEO (/public/cobalt-video.mp4, 2.5MB H.264, autoplay/muted/loop/playsInline, poster=/cobalt-taxi.jpg, testid brand-video); tag label now "VIDEO"/"ВИДЕО". NOTE: headless Playwright Chromium can't decode H.264 (readyState 0) — NOT a bug, real browsers play it; poster shows as fallback.
 - Mute/unmute button on video (testid video-mute-toggle, bottom-right, VolumeX/Volume2 icons); play() promise wrapped in .catch() to avoid unhandled rejection in codec-less browsers. Self-tested: toggle flips video.muted, no error overlay.
 
+## Implemented (2026-06) — Iteration 10 (final acceptance)
+- Full operational acceptance run (iteration_8.json): 6/6 PASS — lead form → t.me/t_boxodir with prefilled name+phone (desktop+mobile, UZ+RU messages), all CTA hrefs verified, zero console errors, zero horizontal overflow at 3 scroll depths on 390px, RU persistence after reload, FAQ toggle OK
+- Hardening: popup-blocked fallback in LeadForm (window.open null → window.location.href = t.me url) so no lead is lost
+- TESTING TIP for future agents: use JS-based interactions (window.open override, native input setter + input event, element.click()) — Playwright fill/click stalls on Lenis + popup navigation
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`

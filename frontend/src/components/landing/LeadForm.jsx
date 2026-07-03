@@ -30,7 +30,9 @@ export default function LeadForm() {
     ]
       .filter(Boolean)
       .join("\n");
-    window.open(telegramWithText(msg), "_blank");
+    const url = telegramWithText(msg);
+    const popup = window.open(url, "_blank");
+    if (!popup) window.location.href = url;
     setSent(true);
   };
 
