@@ -69,7 +69,7 @@ export default function Trust() {
           })}
         </div>
 
-        {/* Real photo block */}
+        {/* Brand video block */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -78,8 +78,17 @@ export default function Trust() {
           data-testid="real-photo-block"
           className="mt-10 relative border border-white/10 overflow-hidden group"
         >
-          <img src="/cobalt-taxi.jpg" alt={tr.photoCaption} className="w-full h-[260px] md:h-[380px] object-cover group-hover:scale-[1.02] transition-transform duration-700" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <video
+            src="/cobalt-video.mp4"
+            poster="/cobalt-taxi.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-[260px] md:h-[480px] object-cover"
+            data-testid="brand-video"
+          />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
           <div className="absolute top-4 left-4 bg-taxi text-black font-mono-accent text-[10px] px-3 py-1.5 flex items-center gap-2">
             <Camera size={12} />
             {tr.photoTag}

@@ -109,7 +109,7 @@ export const translations = {
       hoursLabel: "Ish vaqti",
       addressLabel: "Manzil",
       photoCaption: "999 Taxi brendidagi Chevrolet Cobalt — bizning avtomobil",
-      photoTag: "REAL FOTO",
+      photoTag: "VIDEO",
     },
     testimonials: {
       label: "08 / FIKRLAR",
@@ -305,7 +305,7 @@ export const translations = {
       hoursLabel: "Часы работы",
       addressLabel: "Адрес",
       photoCaption: "Chevrolet Cobalt с брендингом 999 Taxi — наш автомобиль",
-      photoTag: "РЕАЛЬНОЕ ФОТО",
+      photoTag: "ВИДЕО",
     },
     testimonials: {
       label: "08 / ОТЗЫВЫ",

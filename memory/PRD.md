@@ -69,6 +69,9 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Removed cinematic stage-1 praising caption ("Toshkent yo'llari uchun ideal" / Cobalt praise text) per user request, then REPLACED (next request) with company-praise copy: UZ "999 TAXI — ISHONCHLI HAMKOR / Haydovchilar tanlovi — 999 Taxi / Tezkor ulanish, halol munosabat…", RU "999 TAXI — НАДЁЖНЫЙ ПАРТНЁР / Выбор водителей — 999 Taxi…" (Hero.jsx stage1 + i18n.js). Self-tested via screenshot.
 - App is DEPLOYED to production: https://yandex-ride-preview.emergent.host — changes require user redeploy. "Made with Emergent" badge is platform-injected, not in codebase (user directed to support@emergent.sh).
 
+## Implemented (2026-06) — Iteration 9
+- Replaced the Trust-section Cobalt photo with user's uploaded promo VIDEO (/public/cobalt-video.mp4, 2.5MB H.264, autoplay/muted/loop/playsInline, poster=/cobalt-taxi.jpg, testid brand-video); tag label now "VIDEO"/"ВИДЕО". NOTE: headless Playwright Chromium can't decode H.264 (readyState 0) — NOT a bug, real browsers play it; poster shows as fallback.
+
 ## Architecture
 - React 19 + Tailwind + Framer Motion + R3F/drei + Lenis. No backend (FastAPI/Mongo untouched/unused).
 - Brand constants: `/app/frontend/src/lib/brand.js`
