@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { Occupants } from "@/components/landing/Occupants";
 
 export const COBALT_URL = "/models/cobalt.glb?v=3";
 
@@ -117,9 +118,9 @@ export function CobaltModel(props) {
         }
       } else if (m.name === "Car_windshield_glass") {
         m.transparent = true;
-        m.opacity = 0.4;
-        m.color = new THREE.Color("#0d1117");
-        m.metalness = 0.6;
+        m.opacity = 0.22;
+        m.color = new THREE.Color("#1c2430");
+        m.metalness = 0.5;
         m.roughness = 0.05;
       } else if (m.name.startsWith("roda")) {
         const lum = m.color ? (m.color.r + m.color.g + m.color.b) / 3 : 0;
@@ -178,6 +179,8 @@ export function CobaltModel(props) {
 
       <SideBranding side="right" />
       <SideBranding side="left" />
+
+      <Occupants />
     </group>
   );
 }

@@ -1,13 +1,15 @@
 import { motion } from "framer-motion";
 import { UserPlus, MessageSquare, Send, LifeBuoy } from "lucide-react";
 import { useT } from "@/lib/i18n";
+import { FloatingDecor } from "@/components/landing/FloatingDecor";
 
 const icons = [UserPlus, MessageSquare, Send, LifeBuoy];
 
 export default function About() {
   const t = useT().about;
   return (
-    <section id="haqida" data-testid="about-section" className="relative py-24 md:py-32 bg-[#0b0b0b]">
+    <section id="haqida" data-testid="about-section" className="relative py-24 md:py-32 bg-[#0b0b0b] overflow-hidden">
+      <FloatingDecor src="/decor/phone.webp" testId="decor-about-phone" className="hidden xl:block absolute right-16 2xl:right-28 top-20 w-48 2xl:w-56" />
       <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

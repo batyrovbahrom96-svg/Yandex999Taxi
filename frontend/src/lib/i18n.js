@@ -15,7 +15,20 @@ export const translations = {
       ctaCall: "Qo‘ng‘iroq qilish",
       ctaTelegram: "Telegram orqali bog‘lanish",
     },
-    mobileCta: { call: "Qo‘ng‘iroq", telegram: "Telegram", form: "Ariza qoldirish" },
+    mobileCta: {
+      call: "Qo‘ng‘iroq",
+      telegram: "Telegram",
+      form: "Ariza",
+      callback: "Qayta aloqa",
+      sheet: {
+        title: "Sizga qo‘ng‘iroq qilamiz",
+        desc: "Raqamingizni qoldiring — tez orada o‘zimiz bog‘lanamiz.",
+        ph: "+998 90 123 45 67",
+        submit: "Menga qo‘ng‘iroq qiling",
+        success: "Qabul qilindi! Tez orada qo‘ng‘iroq qilamiz.",
+        msg: "Iltimos, menga qo‘ng‘iroq qiling. Raqamim",
+      },
+    },
     hero: {
       badge: "YANDEX TAXI RASMIY HAMKORI",
       titleLines: ["bilan", "Yandex Go‘da tezroq", "ish boshlang"],
@@ -211,7 +224,20 @@ export const translations = {
       ctaCall: "Позвонить",
       ctaTelegram: "Связаться в Telegram",
     },
-    mobileCta: { call: "Звонок", telegram: "Telegram", form: "Оставить заявку" },
+    mobileCta: {
+      call: "Звонок",
+      telegram: "Telegram",
+      form: "Заявка",
+      callback: "Перезвоним",
+      sheet: {
+        title: "Мы вам перезвоним",
+        desc: "Оставьте номер — свяжемся в ближайшее время.",
+        ph: "+998 90 123 45 67",
+        submit: "Позвоните мне",
+        success: "Принято! Мы скоро перезвоним.",
+        msg: "Пожалуйста, перезвоните мне. Мой номер",
+      },
+    },
     hero: {
       badge: "ОФИЦИАЛЬНЫЙ ПАРТНЁР ЯНДЕКС ТАКСИ",
       titleLines: ["— начните", "работать в Яндекс Go", "быстрее"],

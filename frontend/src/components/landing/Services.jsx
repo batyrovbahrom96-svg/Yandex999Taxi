@@ -2,13 +2,15 @@ import { motion } from "framer-motion";
 import { PlugZap, FileSearch, Car, Send, GraduationCap, Rocket, ArrowRight } from "lucide-react";
 import { TELEGRAM_URL } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
+import { FloatingDecor } from "@/components/landing/FloatingDecor";
 
 const icons = [PlugZap, FileSearch, Car, Send, GraduationCap, Rocket];
 
 export default function Services() {
   const t = useT().services;
   return (
-    <section id="xizmatlar" data-testid="services-section" className="relative py-24 md:py-32 bg-[#050505]">
+    <section id="xizmatlar" data-testid="services-section" className="relative py-24 md:py-32 bg-[#050505] overflow-hidden">
+      <FloatingDecor src="/decor/docs.webp" testId="decor-services-docs" delay={0.15} className="hidden xl:block absolute right-24 2xl:right-40 top-8 w-40 2xl:w-48" />
       <div className="absolute inset-0 grid-bg opacity-25 pointer-events-none" />
       <div className="relative max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16">
         <motion.div

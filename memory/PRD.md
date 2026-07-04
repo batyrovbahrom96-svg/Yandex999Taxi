@@ -104,3 +104,10 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - P1: Exact office address for Google Maps pin (waiting on user)
 - P2: Yandex Metrica / Google Analytics CTA conversion tracking (NEXT UP per user: "after mobile polish, move to analytics")
 - P2: Optional backend lead storage + admin view
+
+## Implemented (2026-07) — Iteration 14 (3D occupants + animated decor + call-me-back)
+- 3D people in the Cobalt (Occupants.jsx, primitives ~0KB): driver front-left (white shirt, yellow cap, arms to wheel) + client rear-right, cabin pointLight, windshield glass lightened to opacity 0.22 for visibility. NOTE: car FRONT faces -Z in world space (Occupants group rotated PI).
+- OrbitPrep-style animated floating 3D decor (FloatingDecor.jsx): brand yellow/black renders (public/decor/*.webp, ~150KB total, backgrounds removed via flood-fill) with 3D tumble (rotateY/Z + perspective), float, pulsing glow, rotating dashed orbit ring, drifting particles. Placed: About=phone (xl+), Services=docs (xl+), Process=wheel (xl+), OfficeLocation=pin (lg+). Hidden on mobile/tablet by design (zero overlap guarantee).
+- "Call me back" in sticky mobile bar (MobileCTA.jsx): 4th button (sticky-cta-callback) opens bottom sheet (callback-sheet) → phone input → t.me/t_boxodir deep link with prefilled message (popup-block fallback), success state, auto-close 2.5s. i18n UZ/RU under mobileCta.sheet.
+- Self-tested (testing agent timed out — SUBAGENT TIMEOUT, no report): 390px callback flow E2E PASS (t.me URL captured with phone), 4 buttons fit, decor hidden on mobile, no horizontal scroll, occupants + decor visually verified at 1920px.
+- User will push to Vercel themselves via Save to GitHub (their project: frontend-amber-ten-38.vercel.app = same codebase).

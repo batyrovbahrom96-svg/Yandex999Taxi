@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Send, FileText, Route, CheckCircle2 } from "lucide-react";
 import { TELEGRAM_URL } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
+import { FloatingDecor } from "@/components/landing/FloatingDecor";
 
 const icons = [Send, FileText, Route, CheckCircle2];
 
@@ -9,6 +10,7 @@ export default function Process() {
   const t = useT().process;
   return (
     <section id="qanday" data-testid="process-section" className="relative py-24 md:py-32 bg-[#050505] overflow-hidden">
+      <FloatingDecor src="/decor/wheel.webp" testId="decor-process-wheel" delay={0.1} className="hidden xl:block absolute left-16 2xl:left-32 top-16 w-44 2xl:w-52" />
       <div className="absolute inset-0 radial-glow opacity-60 pointer-events-none" />
       <div className="relative max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16">
         <motion.div

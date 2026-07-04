@@ -2,13 +2,15 @@ import { motion } from "framer-motion";
 import { MapPin, Clock, Phone, Send, Navigation2 } from "lucide-react";
 import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
+import { FloatingDecor } from "@/components/landing/FloatingDecor";
 
 const MAPS_QUERY = "Qorasuv ko'chasi 39, Yashnobod tumani, Tashkent 100014, Uzbekistan";
 
 export default function OfficeLocation() {
   const t = useT().office;
   return (
-    <section id="manzil" data-testid="office-location-section" className="relative py-24 md:py-32 bg-[#050505]">
+    <section id="manzil" data-testid="office-location-section" className="relative py-24 md:py-32 bg-[#050505] overflow-hidden">
+      <FloatingDecor src="/decor/pin.webp" testId="decor-office-pin" delay={0.2} className="hidden lg:block absolute right-10 xl:right-20 top-10 w-32 xl:w-40 z-10" />
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
       <div className="relative max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
         <motion.div
