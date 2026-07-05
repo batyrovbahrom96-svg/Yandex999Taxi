@@ -137,3 +137,10 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - Domain moved to 999taxi.uz: CORS updated, admin re-seeded as admin@999taxi.uz (old .com login deleted, verified 401), test_credentials.md updated.
 - ROOT CAUSE of "no 3D on phone in production": drei `Environment preset="city"` fetched HDR from raw.githack.com CDN — blocked/unreachable on UZ mobile networks (and by the new Vercel CSP) → throw inside Suspense → SceneErrorBoundary → static image fallback. FIX: self-hosted /public/env/city.hdr (1.5MB) + `Environment files="/env/city.hdr"` + isolated EnvBoundary so a lighting failure can no longer kill the whole canvas.
 - Verified on preview: local HDR 200, 0 githack requests, canvas mounts, mobile + desktop render correct. USER MUST REDEPLOY production to get the fix.
+
+## Implemented (2026-07) — Iteration 19 (OG share card + SEO pack)
+- /public/og-image.jpg: branded 1200x630 share card (yellow Cobalt + 999 TAXI, 135KB) — Telegram/social previews now show branded card.
+- index.html: canonical https://999taxi.uz/, full OG tags (title/desc/image/locale uz_UZ+ru_RU), Twitter summary_large_image, JSON-LD LocalBusiness (address/phone/hours/telegram) + FAQPage (6 UZ Q&As) — both validated.
+- /public/robots.txt (Disallow /admin, sitemap ref) + /public/sitemap.xml.
+- Verified via curl: og tags served, 2 JSON-LD blocks, og-image 200/135KB, robots+sitemap 200.
+- Launch checklist remaining: user redeploy; Metrica/GA ID; PostHog removal decision; Sentry DSN optional.
