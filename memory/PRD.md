@@ -111,3 +111,11 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - "Call me back" in sticky mobile bar (MobileCTA.jsx): 4th button (sticky-cta-callback) opens bottom sheet (callback-sheet) → phone input → t.me/t_boxodir deep link with prefilled message (popup-block fallback), success state, auto-close 2.5s. i18n UZ/RU under mobileCta.sheet.
 - Self-tested (testing agent timed out — SUBAGENT TIMEOUT, no report): 390px callback flow E2E PASS (t.me URL captured with phone), 4 buttons fit, decor hidden on mobile, no horizontal scroll, occupants + decor visually verified at 1920px.
 - User will push to Vercel themselves via Save to GitHub (their project: frontend-amber-ten-38.vercel.app = same codebase).
+
+## Implemented (2026-07) — Iteration 15 (full cinematic 3D on mobile)
+- User requested desktop cinematic experience transposed to smartphones. Removed the simplified mobile hero: cinematic sticky 400vh scroll now runs on ALL devices with WebGL (gate: `cinematic = webgl` in Hero.jsx).
+- Mobile tuning: KEYS_MOBILE camera path in CinematicScene.jsx (look-points raised so car frames in lower half, text on top), fov 42 portrait, DPR [1,1.5], shadows+antialias OFF on mobile. Stage overlays: items-start pt-20/24 on mobile, lg reverts to centered; TrustBadges hidden <lg in stage 0; scroll hint bottom-24 (above sticky bar).
+- Non-WebGL fallback = static image hero (sceneReady/isSmall/deferred-mount logic removed as dead code).
+- Verified via screenshots at 390px: all 4 stages render correctly (stage 2 close-up shows driver+client), no horizontal scroll, sticky bar clear; desktop 1920 regression OK.
+- NOTE: full pre-launch button-by-button QA was INTERRUPTED by user (testing agent timed out twice before that). Mobile callback flow E2E-tested in iteration 14. Remaining QA: nav links, FAQ accordion, lead form UZ/RU E2E, hamburger menu.
+- Security audit (done, CONDITIONAL PASS): SEC-001 PostHog session replay vs privacy copy (MEDIUM), SEC-002 backend wildcard CORS (LOW), missing CSP/security headers + maps iframe referrer (hardening). User has NOT yet chosen fix option.

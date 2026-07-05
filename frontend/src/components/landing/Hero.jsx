@@ -144,17 +144,13 @@ export default function Hero() {
   const th = useT().hero;
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
-  const [isSmall, setIsSmall] = useState(() => window.innerWidth < 768);
   const [webgl] = useState(hasWebGL);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const progressRef = useRef(0);
 
   useEffect(() => {
     const unsub = scrollYProgress.on("change", (v) => (progressRef.current = v));
-    const onResize = () => {
-      setIsMobile(window.innerWidth < 1024);
-      setIsSmall(window.innerWidth < 768);
-    };
+    const onResize = () => setIsMobile(window.innerWidth < 1024);
     window.addEventListener("resize", onResize);
     return () => {
       unsub();
@@ -162,17 +158,7 @@ export default function Hero() {
     };
   }, [scrollYProgress]);
 
-  const cinematic = !isMobile && webgl;
-
-  const [sceneReady, setSceneReady] = useState(false);
-  useEffect(() => {
-    if (cinematic) {
-      setSceneReady(true);
-      return;
-    }
-    const id = setTimeout(() => setSceneReady(true), 700);
-    return () => clearTimeout(id);
-  }, [cinematic]);
+  const cinematic = webgl;
 
   const o0 = useTransform(scrollYProgress, [0, 0.16, 0.28], [1, 1, 0]);
   const ev0 = useTransform(o0, (v) => (v > 0.4 ? "auto" : "none"));
@@ -187,7 +173,7 @@ export default function Hero() {
     document.getElementById("aloqa")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  /* ---------- Mobile / no-WebGL: content first, car below ---------- */
+  /* ---------- No WebGL: static fallback ---------- */
   if (!cinematic) {
     return (
       <section id="hero" ref={ref} data-testid="hero-section" className="relative overflow-hidden">
@@ -197,16 +183,7 @@ export default function Hero() {
           <HeroContent goForm={goForm} />
 
           <div className="relative mt-8 -mx-5 md:mx-0 h-[300px] sm:h-[360px] border-y md:border border-white/10 bg-[#070707]" data-testid="hero-3d-canvas">
-            {webgl && sceneReady ? (
-              <SceneErrorBoundary>
-                <Suspense fallback={null}>
-                  <CinematicScene getProgress={() => 0} cinematic={false} small={isSmall} />
-                </Suspense>
-                <SceneLoader />
-              </SceneErrorBoundary>
-            ) : (
-              <img src="/cobalt-taxi.jpg" alt="999 Taxi — Chevrolet Cobalt" className="w-full h-full object-cover opacity-80" data-testid={webgl ? "hero-3d-placeholder" : "hero-image-fallback"} />
-            )}
+            <img src="/cobalt-taxi.jpg" alt="999 Taxi — Chevrolet Cobalt" className="w-full h-full object-cover" data-testid="hero-image-fallback" />
           </div>
 
           <div className="mt-8">
@@ -217,7 +194,7 @@ export default function Hero() {
     );
   }
 
-  /* ---------- Desktop: cinematic sticky scroll, car on the right ---------- */
+  /* ---------- Cinematic sticky scroll (all devices) ---------- */
   return (
     <section id="hero" ref={ref} data-testid="hero-section" className="relative h-[400vh]">
       <div className="sticky top-0 h-screen w-full overflow-hidden">
@@ -227,7 +204,7 @@ export default function Hero() {
         <div className="absolute inset-0" data-testid="hero-3d-canvas">
           <SceneErrorBoundary>
             <Suspense fallback={null}>
-              <CinematicScene getProgress={() => progressRef.current} cinematic />
+              <CinematicScene getProgress={() => progressRef.current} cinematic mobile={isMobile} />
             </Suspense>
             <SceneLoader />
           </SceneErrorBoundary>
@@ -235,12 +212,12 @@ export default function Hero() {
 
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#050505] to-transparent pointer-events-none" />
 
-        {/* Stage 0 — hero reveal: text left, car framed right */}
+        {/* Stage 0 — hero reveal: text left/top, car framed right/bottom */}
         <motion.div style={{ opacity: o0, pointerEvents: ev0 }} className="absolute inset-0 z-10">
-          <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 h-full flex items-center pointer-events-none">
-            <div className="max-w-[44%] pointer-events-auto">
+          <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 h-full flex items-start pt-20 lg:items-center lg:pt-0 pointer-events-none">
+            <div className="max-w-full lg:max-w-[44%] pointer-events-auto">
               <HeroContent goForm={goForm} />
-              <div className="mt-9">
+              <div className="mt-9 hidden lg:block">
                 <TrustBadges />
               </div>
             </div>
@@ -248,7 +225,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Stage 1 — company praise */}
-        <motion.div style={{ opacity: o1 }} className="absolute inset-0 z-10 pointer-events-none flex items-center">
+        <motion.div style={{ opacity: o1 }} className="absolute inset-0 z-10 pointer-events-none flex items-start pt-24 lg:items-center lg:pt-0">
           <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full">
             <div className="max-w-md" data-testid="hero-stage-1">
               <span className="font-mono-accent text-taxi text-xs">{th.stage1.tag}</span>
@@ -263,7 +240,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Stage 2 — details close-up */}
-        <motion.div style={{ opacity: o2 }} className="absolute inset-0 z-10 pointer-events-none flex items-center justify-end">
+        <motion.div style={{ opacity: o2 }} className="absolute inset-0 z-10 pointer-events-none flex items-start pt-24 lg:items-center lg:pt-0 justify-end">
           <div className="max-w-[1500px] mx-auto px-5 md:px-10 lg:px-16 w-full flex justify-end">
             <div className="max-w-md text-right" data-testid="hero-stage-2">
               <span className="font-mono-accent text-taxi text-xs">{th.stage2.tag}</span>
@@ -296,7 +273,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Scroll hint */}
-        <motion.div style={{ opacity: hint }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none" data-testid="hero-scroll-hint">
+        <motion.div style={{ opacity: hint }} className="absolute bottom-24 lg:bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1.5 pointer-events-none" data-testid="hero-scroll-hint">
           <span className="font-mono-accent text-white/50 text-[10px]">{th.scrollHint}</span>
           <ChevronDown size={18} className="text-taxi animate-bounce" />
         </motion.div>

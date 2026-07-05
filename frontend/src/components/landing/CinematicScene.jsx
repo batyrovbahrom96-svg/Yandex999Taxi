@@ -11,10 +11,18 @@ const KEYS = [
   { pos: [-5.2, 2.7, -7.4], look: [0, 0.45, 0] },
 ];
 
+/* portrait framing: camera looks slightly above the car so it sits in the lower half, clear of text */
+const KEYS_MOBILE = [
+  { pos: [4.6, 1.8, -9.6], look: [0.3, 1.75, 0.3] },
+  { pos: [7.0, 1.5, -1.0], look: [0, 1.35, 1.0] },
+  { pos: [2.7, 1.9, -5.0], look: [-0.5, 1.5, -1.4] },
+  { pos: [-4.9, 2.8, -8.8], look: [0, 1.15, 0] },
+];
+
 const smooth = (t) => t * t * (3 - 2 * t);
 
-function CameraRig({ getProgress, cinematic }) {
-  const vec = useMemo(() => ({ p: new THREE.Vector3(), l: new THREE.Vector3(), cl: new THREE.Vector3(1.5, 0.55, 0.95) }), []);
+function CameraRig({ getProgress, cinematic, keys }) {
+  const vec = useMemo(() => ({ p: new THREE.Vector3(), l: new THREE.Vector3(), cl: new THREE.Vector3(...keys[0].look) }), [keys]);
   useFrame(({ camera }) => {
     if (!cinematic) {
       camera.lookAt(0, 0.65, 0);
@@ -24,8 +32,8 @@ function CameraRig({ getProgress, cinematic }) {
     const scaled = p * 3;
     const seg = Math.min(2, Math.floor(scaled));
     const t = smooth(scaled - seg);
-    const a = KEYS[seg];
-    const b = KEYS[seg + 1];
+    const a = keys[seg];
+    const b = keys[seg + 1];
     vec.p.set(
       THREE.MathUtils.lerp(a.pos[0], b.pos[0], t),
       THREE.MathUtils.lerp(a.pos[1], b.pos[1], t),
@@ -116,13 +124,14 @@ function Road() {
   );
 }
 
-export default function CinematicScene({ getProgress, cinematic = true, small = false }) {
+export default function CinematicScene({ getProgress, cinematic = true, small = false, mobile = false }) {
+  const keys = mobile ? KEYS_MOBILE : KEYS;
   return (
     <Canvas
-      dpr={cinematic ? [1, 2] : [1, 1.5]}
-      shadows={cinematic}
-      camera={{ position: cinematic ? [5.4, 1.9, -7.6] : small ? [6.6, 2.2, -9.6] : [6.4, 2.2, -9.4], fov: small ? 34 : 32 }}
-      gl={{ antialias: !small, alpha: true }}
+      dpr={mobile ? [1, 1.5] : cinematic ? [1, 2] : [1, 1.5]}
+      shadows={cinematic && !mobile}
+      camera={{ position: cinematic ? keys[0].pos : small ? [6.6, 2.2, -9.6] : [6.4, 2.2, -9.4], fov: mobile ? 42 : small ? 34 : 32 }}
+      gl={{ antialias: !mobile && !small, alpha: true }}
       style={{ background: "transparent" }}
     >
       <ambientLight intensity={0.35} />
@@ -140,7 +149,7 @@ export default function CinematicScene({ getProgress, cinematic = true, small = 
         <Environment preset="city" />
       </Suspense>
 
-      <CameraRig getProgress={getProgress} cinematic={cinematic} />
+      <CameraRig getProgress={getProgress} cinematic={cinematic} keys={keys} />
     </Canvas>
   );
 }
