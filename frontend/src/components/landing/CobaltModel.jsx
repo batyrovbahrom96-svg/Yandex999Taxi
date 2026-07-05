@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { Occupants } from "@/components/landing/Occupants";
 
 export const COBALT_URL = "/models/cobalt.glb?v=3";
+const DRACO_DECODER_PATH = "/draco/";
 
 function makeTextTexture(text, { color = "#000", outline = null, w = 512, h = 256, fontSize = 150 }) {
   const canvas = document.createElement("canvas");
@@ -98,7 +99,7 @@ export const lightMats = { front: [], rear: [] };
 
 /** Optimized Chevrolet Cobalt LTZ (Q.SARDOR / CC BY 4.0), normalized: bottom y=0, length 4.3 along z */
 export function CobaltModel(props) {
-  const { scene } = useGLTF(COBALT_URL, true);
+  const { scene } = useGLTF(COBALT_URL, DRACO_DECODER_PATH);
 
   const { s, offset } = useMemo(() => {
     const box = new THREE.Box3().setFromObject(scene);
@@ -190,4 +191,4 @@ export function CobaltModel(props) {
   );
 }
 
-useGLTF.preload(COBALT_URL, true);
+useGLTF.preload(COBALT_URL, DRACO_DECODER_PATH);
