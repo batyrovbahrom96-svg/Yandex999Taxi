@@ -31,15 +31,21 @@ class SceneErrorBoundary extends Component {
 }
 
 function SceneLoader() {
-  const { progress } = useProgress();
+  const { progress, item } = useProgress();
   const t = useT().hero;
   const [done, setDone] = useState(false);
   useEffect(() => {
     if (progress >= 100) {
-      const t = setTimeout(() => setDone(true), 500);
-      return () => clearTimeout(t);
+      const id = setTimeout(() => setDone(true), 500);
+      return () => clearTimeout(id);
     }
   }, [progress]);
+  // safety: once the car model itself is in, never hold the screen for lighting/extras
+  useEffect(() => {
+    const carLoaded = progress >= 100 || (typeof item === "string" && item.includes("cobalt"));
+    const id = setTimeout(() => setDone(true), carLoaded ? 4000 : 15000);
+    return () => clearTimeout(id);
+  }, [progress, item]);
   if (done) return null;
   return (
     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#050505]/80 backdrop-blur-sm pointer-events-none" data-testid="scene-loader">

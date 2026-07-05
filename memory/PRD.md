@@ -144,3 +144,8 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - /public/robots.txt (Disallow /admin, sitemap ref) + /public/sitemap.xml.
 - Verified via curl: og tags served, 2 JSON-LD blocks, og-image 200/135KB, robots+sitemap 200.
 - Launch checklist remaining: user redeploy; Metrica/GA ID; PostHog removal decision; Sentry DSN optional.
+
+## Implemented (2026-07) — Iteration 20 (loader stuck at 80% — hardening)
+- User saw loader frozen at 80% ("3D MODEL YUKLANMOQDA") — that is PRODUCTION still running the OLD build (githack HDR hangs → useProgress never reaches 100). New build already fixes root cause (self-hosted HDR).
+- Extra failsafe in SceneLoader (Hero.jsx): loader force-hides 4s after the cobalt GLB is in (even if lighting/extras stall) and after 15s max regardless — a stuck loader is now impossible.
+- Verified on preview: loader hides, canvas renders. USER STILL NEEDS DEPLOY TO COMPLETE on 999taxi.uz.
