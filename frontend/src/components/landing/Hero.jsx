@@ -40,6 +40,10 @@ function SceneLoader() {
       return () => clearTimeout(t);
     }
   }, [progress]);
+  useEffect(() => {
+    const t = setTimeout(() => setDone(true), 7000);
+    return () => clearTimeout(t);
+  }, []);
   if (done) return null;
   return (
     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-[#050505]/80 backdrop-blur-sm pointer-events-none" data-testid="scene-loader">
