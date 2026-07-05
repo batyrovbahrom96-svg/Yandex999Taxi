@@ -4,6 +4,7 @@ import { Phone, Send, FileText, PhoneCall, X, CheckCircle2 } from "lucide-react"
 import { PHONE, TELEGRAM_URL, telegramWithText } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
+import { submitLead } from "@/lib/api";
 
 export default function MobileCTA() {
   const t = useT().mobileCta;
@@ -25,6 +26,7 @@ export default function MobileCTA() {
   const submit = (e) => {
     e.preventDefault();
     track("lead_callback", { source: "sticky_bar" });
+    submitLead({ type: "callback", phone, source: "sticky_bar" });
     const url = telegramWithText(`${t.sheet.msg}: ${phone}`);
     const popup = window.open(url, "_blank");
     if (!popup) window.location.href = url;

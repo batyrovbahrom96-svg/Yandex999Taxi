@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lenis from "lenis";
 import Landing from "@/pages/Landing";
 import { LangProvider } from "@/lib/i18n";
 import { initAnalytics } from "@/lib/analytics";
+
+const Admin = lazy(() => import("@/pages/Admin"));
 
 function App() {
   useEffect(() => {
@@ -31,6 +33,14 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route
+              path="/admin"
+              element={
+                <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
+                  <Admin />
+                </Suspense>
+              }
+            />
           </Routes>
         </BrowserRouter>
       </LangProvider>
