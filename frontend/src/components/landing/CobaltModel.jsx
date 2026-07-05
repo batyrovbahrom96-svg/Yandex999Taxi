@@ -94,6 +94,8 @@ function SideBranding({ side }) {
   );
 }
 
+export const lightMats = { front: [], rear: [] };
+
 /** Optimized Chevrolet Cobalt LTZ (Q.SARDOR / CC BY 4.0), normalized: bottom y=0, length 4.3 along z */
 export function CobaltModel(props) {
   const { scene } = useGLTF(COBALT_URL, true);
@@ -103,6 +105,8 @@ export function CobaltModel(props) {
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const s = 4.3 / size.z;
+    lightMats.front.length = 0;
+    lightMats.rear.length = 0;
     scene.traverse((o) => {
       if (!o.isMesh || !o.material) return;
       o.castShadow = true;
@@ -140,9 +144,10 @@ export function CobaltModel(props) {
         m.metalness = 1;
         m.roughness = 0.06;
         if (m.emissive) {
-          m.emissive = new THREE.Color("#9fc4e8");
+          m.emissive = new THREE.Color("#ffe9b0");
           m.emissiveIntensity = 0.2;
         }
+        lightMats.front.push(m);
       } else if (m.name.includes("rear_light")) {
         m.transparent = true;
         m.opacity = 0.65;

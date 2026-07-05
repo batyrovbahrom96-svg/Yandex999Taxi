@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useRef, useState, Component } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useProgress } from "@react-three/drei";
-import { Send, Phone, FileText, Zap, LifeBuoy, MessageCircle, MapPin, ChevronDown } from "lucide-react";
+import { Send, Phone, FileText, Zap, LifeBuoy, MessageCircle, MapPin, ChevronDown, Rotate3d } from "lucide-react";
 import { PHONE, TELEGRAM_URL } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
 import { track } from "@/lib/analytics";
@@ -152,6 +152,7 @@ export default function Hero() {
   const ref = useRef(null);
   const [isMobile, setIsMobile] = useState(() => window.innerWidth < 1024);
   const [webgl] = useState(hasWebGL);
+  const [dragged, setDragged] = useState(false);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end end"] });
   const progressRef = useRef(0);
 
@@ -211,7 +212,7 @@ export default function Hero() {
         <div className="absolute inset-0" data-testid="hero-3d-canvas">
           <SceneErrorBoundary>
             <Suspense fallback={null}>
-              <CinematicScene getProgress={() => progressRef.current} cinematic mobile={isMobile} />
+              <CinematicScene getProgress={() => progressRef.current} cinematic mobile={isMobile} onDrag={() => setDragged(true)} />
             </Suspense>
             <SceneLoader />
           </SceneErrorBoundary>
@@ -229,6 +230,18 @@ export default function Hero() {
               </div>
             </div>
           </div>
+          {!dragged && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 2.4, duration: 0.7 }}
+              className="absolute bottom-40 left-1/2 -translate-x-1/2 lg:left-auto lg:translate-x-0 lg:right-[16%] lg:bottom-24 flex items-center gap-2.5 border border-taxi/40 bg-black/70 backdrop-blur px-4 py-2.5 pointer-events-none"
+              data-testid="hero-drag-hint"
+            >
+              <Rotate3d size={16} className="text-taxi animate-pulse" />
+              <span className="font-mono-accent text-white/80 text-[11px]">{th.dragHint}</span>
+            </motion.div>
+          )}
         </motion.div>
 
         {/* Stage 1 — company praise */}
@@ -265,7 +278,10 @@ export default function Hero() {
         <motion.div style={{ opacity: o3, pointerEvents: ev3 }} className="absolute inset-0 z-10 flex items-center justify-center">
           <div className="text-center px-5" data-testid="hero-stage-3">
             <span className="font-mono-accent text-taxi text-xs">{th.stage3.tag}</span>
-            <h2 className="font-display text-white text-4xl lg:text-7xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+            <h2 className="font-display text-taxi text-3xl lg:text-5xl tracking-tighter mt-3 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]" data-testid="hero-stage3-invite">
+              {th.stage3.invite}
+            </h2>
+            <h2 className="font-display text-white text-4xl lg:text-7xl tracking-tighter mt-2 drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
               {th.stage3.title[0]}<br />{th.stage3.title[1]}
             </h2>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
