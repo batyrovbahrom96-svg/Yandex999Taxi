@@ -3,6 +3,7 @@ import { Menu, X, Phone, Send } from "lucide-react";
 import { Logo } from "@/components/landing/Logo";
 import { PHONE, TELEGRAM_URL } from "@/lib/brand";
 import { useLang } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
 
 function LangToggle({ compact = false }) {
   const { lang, setLang } = useLang();
@@ -73,6 +74,7 @@ export default function Navigation() {
           <LangToggle />
           <a
             href={`tel:${PHONE}`}
+            onClick={() => track("cta_call", { source: "nav" })}
             data-testid="nav-cta-call"
             className="inline-flex items-center gap-2 border border-white/20 text-white text-sm font-bold px-5 py-3 hover:border-taxi hover:text-taxi transition-colors"
           >
@@ -83,6 +85,7 @@ export default function Navigation() {
             href={TELEGRAM_URL}
             target="_blank"
             rel="noreferrer"
+            onClick={() => track("cta_telegram", { source: "nav" })}
             data-testid="nav-cta-telegram"
             className="inline-flex items-center gap-2 bg-taxi text-black font-bold text-sm px-5 py-3 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300"
           >

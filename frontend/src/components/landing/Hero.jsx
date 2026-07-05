@@ -4,6 +4,7 @@ import { useProgress } from "@react-three/drei";
 import { Send, Phone, FileText, Zap, LifeBuoy, MessageCircle, MapPin, ChevronDown } from "lucide-react";
 import { PHONE, TELEGRAM_URL } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
 
 const CinematicScene = lazy(() => import("@/components/landing/CinematicScene"));
 
@@ -103,13 +104,13 @@ function HeroContent({ goForm }) {
         transition={{ duration: 0.6, delay: 0.25 }}
         className="mt-7 flex flex-wrap items-center gap-3"
       >
-        <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-cta-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-7 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
+        <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" onClick={() => track("cta_telegram", { source: "hero" })} data-testid="hero-cta-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-7 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
           <Send size={18} /> {t.ctaTelegram}
         </a>
-        <a href="#aloqa" onClick={goForm} data-testid="hero-cta-form" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
+        <a href="#aloqa" onClick={(e) => { track("cta_form", { source: "hero" }); goForm(e); }} data-testid="hero-cta-form" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
           <FileText size={17} /> {t.ctaForm}
         </a>
-        <a href={`tel:${PHONE}`} data-testid="hero-cta-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
+        <a href={`tel:${PHONE}`} onClick={() => track("cta_call", { source: "hero" })} data-testid="hero-cta-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-7 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
           <Phone size={17} /> {t.ctaCall}
         </a>
       </motion.div>
@@ -262,10 +263,10 @@ export default function Hero() {
               {th.stage3.title[0]}<br />{th.stage3.title[1]}
             </h2>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="hero-stage3-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
+              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" onClick={() => track("cta_telegram", { source: "hero_stage3" })} data-testid="hero-stage3-telegram" className="inline-flex items-center gap-3 bg-taxi text-black font-extrabold px-8 py-4 hover:bg-[#ffe04d] hover:scale-[1.03] transition-all duration-300">
                 <Send size={18} /> {th.ctaTelegram}
               </a>
-              <a href={`tel:${PHONE}`} data-testid="hero-stage3-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
+              <a href={`tel:${PHONE}`} onClick={() => track("cta_call", { source: "hero_stage3" })} data-testid="hero-stage3-call" className="inline-flex items-center gap-3 border border-white/30 bg-black/60 backdrop-blur text-white font-bold px-8 py-4 hover:border-taxi hover:text-taxi transition-colors duration-300">
                 <Phone size={17} /> {th.ctaCall}
               </a>
             </div>

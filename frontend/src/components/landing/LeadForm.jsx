@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Send, Phone, Clock, MapPin, CheckCircle2, ShieldCheck } from "lucide-react";
 import { PHONE, PHONE_DISPLAY, TELEGRAM_HANDLE, TELEGRAM_URL, telegramWithText } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
 
 const inputCls =
   "w-full bg-[#0e0e0e] border border-white/15 text-white px-4 py-3.5 text-sm placeholder:text-white/35 focus:outline-none focus:border-taxi transition-colors";
@@ -19,6 +20,7 @@ export default function LeadForm() {
 
   const submit = (e) => {
     e.preventDefault();
+    track("lead_form", { source: "contact_section" });
     const msg = [
       tf.msg.intro,
       `${tf.msg.name}: ${form.name}`,

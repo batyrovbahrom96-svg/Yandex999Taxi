@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Phone, Send, FileText, PhoneCall, X, CheckCircle2 } from "lucide-react";
 import { PHONE, TELEGRAM_URL, telegramWithText } from "@/lib/brand";
 import { useT } from "@/lib/i18n";
+import { track } from "@/lib/analytics";
 
 export default function MobileCTA() {
   const t = useT().mobileCta;
@@ -23,6 +24,7 @@ export default function MobileCTA() {
 
   const submit = (e) => {
     e.preventDefault();
+    track("lead_callback", { source: "sticky_bar" });
     const url = telegramWithText(`${t.sheet.msg}: ${phone}`);
     const popup = window.open(url, "_blank");
     if (!popup) window.location.href = url;
@@ -93,19 +95,19 @@ export default function MobileCTA() {
         data-testid="mobile-sticky-cta"
         className="fixed bottom-0 left-0 right-0 z-50 lg:hidden grid grid-cols-4 border-t border-white/10 bg-black/90 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]"
       >
-        <a href={`tel:${PHONE}`} data-testid="sticky-cta-call" className="flex flex-col items-center justify-center gap-1 py-3 text-white active:bg-white/10">
+        <a href={`tel:${PHONE}`} onClick={() => track("cta_call", { source: "sticky_bar" })} data-testid="sticky-cta-call" className="flex flex-col items-center justify-center gap-1 py-3 text-white active:bg-white/10">
           <Phone size={18} className="text-taxi" />
           <span className="text-[10px] font-bold">{t.call}</span>
         </a>
-        <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" data-testid="sticky-cta-telegram" className="flex flex-col items-center justify-center gap-1 py-3 bg-taxi text-black active:bg-[#ffe04d]">
+        <a href={TELEGRAM_URL} target="_blank" rel="noreferrer" onClick={() => track("cta_telegram", { source: "sticky_bar" })} data-testid="sticky-cta-telegram" className="flex flex-col items-center justify-center gap-1 py-3 bg-taxi text-black active:bg-[#ffe04d]">
           <Send size={18} />
           <span className="text-[10px] font-extrabold">{t.telegram}</span>
         </a>
-        <button onClick={() => setOpen(true)} data-testid="sticky-cta-callback" className="flex flex-col items-center justify-center gap-1 py-3 text-white active:bg-white/10">
+        <button onClick={() => { track("callback_open", { source: "sticky_bar" }); setOpen(true); }} data-testid="sticky-cta-callback" className="flex flex-col items-center justify-center gap-1 py-3 text-white active:bg-white/10">
           <PhoneCall size={18} className="text-taxi" />
           <span className="text-[10px] font-bold">{t.callback}</span>
         </button>
-        <a href="#aloqa" onClick={goForm} data-testid="sticky-cta-form" className="flex flex-col items-center justify-center gap-1 py-3 text-white active:bg-white/10">
+        <a href="#aloqa" onClick={(e) => { track("cta_form", { source: "sticky_bar" }); goForm(e); }} data-testid="sticky-cta-form" className="flex flex-col items-center justify-center gap-1 py-3 text-white active:bg-white/10">
           <FileText size={18} className="text-taxi" />
           <span className="text-[10px] font-bold">{t.form}</span>
         </a>

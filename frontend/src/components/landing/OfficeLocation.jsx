@@ -86,7 +86,7 @@ export default function OfficeLocation() {
             src={`https://www.google.com/maps?q=${encodeURIComponent(MAPS_QUERY)}&z=16&output=embed`}
             className="w-full h-[380px] md:h-[460px] grayscale-[35%] contrast-[1.05]"
             loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
+            referrerPolicy="no-referrer"
             allowFullScreen
           />
           <div className="absolute top-4 left-4 bg-black/85 backdrop-blur px-4 py-2.5 flex items-center gap-2 border border-taxi/40">

@@ -4,9 +4,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Lenis from "lenis";
 import Landing from "@/pages/Landing";
 import { LangProvider } from "@/lib/i18n";
+import { initAnalytics } from "@/lib/analytics";
 
 function App() {
   useEffect(() => {
+    initAnalytics();
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
