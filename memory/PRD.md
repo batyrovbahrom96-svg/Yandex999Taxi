@@ -132,3 +132,8 @@ Originally a 3D marketing landing page for Yandex Taxi (English, dark Swiss high
 - FRONTEND: src/lib/api.js submitLead() fire-and-forget (keepalive fetch, never blocks Telegram flow) wired into LeadForm + callback sheet. /admin route (lazy-loaded Admin.jsx): login form, leads table (date/type/name/tel-link/telegram-link/car-lic/source+note/status select new-contacted-closed/delete), status filter, counts, refresh, logout. vercel.json CSP connect-src now allows *.emergentagent.com / *.emergent.host.
 - TESTED E2E: 9-step curl chain (create/401/login/me/list/patch/delete/422) all pass; site form → lead in Mongo → visible in /admin UI → status change works. Test leads cleaned.
 - NOTE: leads only persist where the backend runs (Emergent deploy). The Vercel copy is static — its leads POST silently no-ops unless REACT_APP_BACKEND_URL points to a live backend.
+
+## Implemented (2026-07) — Iteration 18 (production 3D crash fix + domain move)
+- Domain moved to 999taxi.uz: CORS updated, admin re-seeded as admin@999taxi.uz (old .com login deleted, verified 401), test_credentials.md updated.
+- ROOT CAUSE of "no 3D on phone in production": drei `Environment preset="city"` fetched HDR from raw.githack.com CDN — blocked/unreachable on UZ mobile networks (and by the new Vercel CSP) → throw inside Suspense → SceneErrorBoundary → static image fallback. FIX: self-hosted /public/env/city.hdr (1.5MB) + `Environment files="/env/city.hdr"` + isolated EnvBoundary so a lighting failure can no longer kill the whole canvas.
+- Verified on preview: local HDR 200, 0 githack requests, canvas mounts, mobile + desktop render correct. USER MUST REDEPLOY production to get the fix.

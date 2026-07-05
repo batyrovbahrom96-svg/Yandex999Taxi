@@ -1,8 +1,18 @@
-import { Suspense, useMemo, useRef } from "react";
+import { Component, Suspense, useMemo, useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment, ContactShadows } from "@react-three/drei";
 import * as THREE from "three";
 import { CobaltModel } from "@/components/landing/CobaltModel";
+
+class EnvBoundary extends Component {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    return this.state.failed ? null : this.props.children;
+  }
+}
 
 const KEYS = [
   { pos: [5.4, 1.9, -7.6], look: [1.5, 0.55, 0.95] },
@@ -146,8 +156,12 @@ export default function CinematicScene({ getProgress, cinematic = true, small = 
         <Road />
         <IdleCar cinematic={cinematic} getProgress={getProgress} small={small} />
         <ContactShadows position={[0, 0.01, 0]} opacity={cinematic ? 0.6 : 0.45} scale={12} blur={cinematic ? 2.2 : 1.6} far={4} color="#000000" />
-        <Environment preset="city" />
       </Suspense>
+      <EnvBoundary>
+        <Suspense fallback={null}>
+          <Environment files="/env/city.hdr" />
+        </Suspense>
+      </EnvBoundary>
 
       <CameraRig getProgress={getProgress} cinematic={cinematic} keys={keys} />
     </Canvas>
